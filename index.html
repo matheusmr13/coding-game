@@ -4,19 +4,20 @@
 	src="http://code.jquery.com/jquery-3.2.1.min.js"
 	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 	crossorigin="anonymous"></script>
-		<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
-		<link rel="stylesheet" href="https://codemirror.net/addon/hint/show-hint.css">
-		<link rel="stylesheet" href="https://codemirror.net/theme/pastel-on-dark.css">
-		<script type="text/javascript" src="https://codemirror.net/lib/codemirror.js"></script>
-		<script type="text/javascript" src="https://codemirror.net/addon/hint/show-hint.js"></script>
-		<script type="text/javascript" src="https://codemirror.net/addon/hint/javascript-hint.js"></script>
-		<script type="text/javascript" src="https://codemirror.net/mode/javascript/javascript.js"></script>
-		<script type="text/javascript" src="https://codemirror.net/mode/markdown/markdown.js"></script>
+		<link rel="stylesheet" href="css/codemirror.css">
+		<link rel="stylesheet" href="css/pastel-on-dark.css">
+		<link href="https://fonts.googleapis.com/css?family=Patua+One" rel="stylesheet">
+		<script type="text/javascript" src="js/codemirror.js"></script>
+		<script type="text/javascript" src="js/show-hint.js"></script>
+		<script type="text/javascript" src="js/javascript-hint.js"></script>
+		<script type="text/javascript" src="js/javascript.js"></script>
+		<script type="text/javascript" src="js/markdown.js"></script>
 		<style>
 			body {
 				margin: 0;
 				padding: 0;
 				width: 100vw;
+				font-family: 'Patua One', cursive;
 			}
 			.canvas {
 				position: relative;
@@ -51,10 +52,32 @@
 				height: 100px;
 			}
 			button {
-				background: white;
-				border: 1px solid black;
+				background: #1d1f6b;
+				border: none;
 				text-align: center;
-				width: 100%;
+				font: normal 1em 'Patua One', cursive;
+				color: #fff;
+				padding: .25em 1em;
+			}
+			.game-buttons {
+				background-color: #1c1817;
+				position: relative;
+				height: 6%;
+			}
+			.game-buttons button {
+				position: absolute;
+				right: 4px;
+				top: 4px;
+			}
+			.right-side h1 {
+				margin: 0;
+				font-size: 1em;
+				color: #888;
+				line-height: 2.25em;
+				padding-left: .5em;
+			}
+			.CodeMirror {
+				height: 94%;
 			}
 		</style>
 
@@ -66,8 +89,11 @@
 			<div class="character enemy"></div>
 			<div class="shot shot-enemy" style="display: none;"></div>
 		</div><div class="right-side">
+			<div class="game-buttons">
+				<h1>&lt;&gt; Coding Game</h1>
+				<button>execute</button>
+			</div>
 			<textarea id="code">lib.enemy.walk('LEFT')</textarea>
-			<button>exec</button>
 		</div>
 		<script src="js/tsp.js"></script>
 		<script>
