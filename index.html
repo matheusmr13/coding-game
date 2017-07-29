@@ -116,15 +116,20 @@
 						redraw: redraw
 					}
 				}
-				const execCode = (code) => {
-					
-				}
+				let ended = false;
+				let d 
 				const execRound = (code) => {
+					if (ended) {
+						alert('acaboouu')
+						return;
+					}
 					eval('(function(lib){'+$('textarea').val()+'})(window.lib)')
+					d = setTimeout(() => execRound(code), 1000)
 				}
 				window.lib = lib()
 				$('button').click(() => {
-					execCode()
+					if (d) clearInterval(d)
+					execRound($('textarea').val())
 				})
 
 				window.lib.redraw()
