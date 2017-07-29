@@ -53,12 +53,13 @@
 				<button><i class="fa fa-cogs"></i> run code</button>
 			</div>
 			<textarea id="code">
-for (let i = 0; i < lib.targets.length; i++) {
-  if (!lib.targets[i].dead) {
-    lib.player.moveTo(lib.targets[i].x, lib.targets[i].y)
+for (let i = 0; i < lib.tsp.targets.length; i++) {
+  if (!lib.tsp.targets[i].dead) {
+    lib.tsp.player.moveTo(lib.tsp.targets[i].x, lib.tsp.targets[i].y)
     break
   }
-}</textarea>
+}
+			</textarea>
 		</div>
 		<script>
 			window.lib = {}
