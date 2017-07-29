@@ -179,6 +179,7 @@
 	}
 	let score = 0
 	let matrix = [];
+	let divMatrix = [];
 	let container
 	const reset = () => {
 		for (var i = 0; i < 20;i++) {
@@ -233,15 +234,11 @@
 			}
 			updateCounter++
 			if (shouldDraw) {
-				let table = ''
 				for (var i = 0; i < 20;i++) {
-					table += '<div class="row">'
 					for (var j = 0; j < 10; j++) {
-						table += '<div class="col" style="background-color:' + (matrix[i][j] === 1 ? actual.type.color : matrix[i][j] || 'white') + '"></div>'
+						divMatrix[i][j].css('background-color', (matrix[i][j] === 1 ? actual.type.color : matrix[i][j] || 'white'))
 					}
-					table += '</div>'
 				}
-				container.html(table)
 				shouldDraw = false
 			}
 
@@ -296,6 +293,19 @@
 		actual: actual,
 		init(_container) {
 			container = _container;
+			container.html('')
+			divMatrix = []
+			for (var i = 0; i < 20;i++) {
+				const divRow = []
+				const row = $('<div class="row">')
+				for (var j = 0; j < 10; j++) {
+					const col = $('<div class="col"></div>')
+					divRow.push(col)
+					row.append(col)
+				}
+				container.append(row)
+				divMatrix.push(divRow)
+			}
 			matrix = []
 			ended = false
 			newActual()
