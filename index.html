@@ -1,0 +1,100 @@
+<html>
+	<head>
+		<script
+	src="http://code.jquery.com/jquery-3.2.1.min.js"
+	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+	crossorigin="anonymous"></script>
+
+		<style>
+			.canvas {
+				position: relative;
+				height: 400px;
+				width: 400px;
+				background-color: rgb(240,240,240)
+			}
+			.character {
+				width: 10px;
+				height: 10px;
+				position: absolute;
+			}
+
+			.player {
+				background-color: blue;
+			}
+
+			.enemy {
+				background-color: red;
+			}
+
+			textarea {
+				width: 200px;
+				height: 100px;
+			}
+		</style>
+
+	</head>
+	<body>
+		<div class="canvas">
+			<div class="character player"></div>
+			<div class="shot shot-player" style="display: none;"></div>
+			<div class="character enemy"></div>
+			<div class="shot shot-enemy" style="display: none;"></div>
+		</div>
+		<textarea>
+			
+		</textarea>
+		<button>exec</button>
+		<script>
+			(function() {
+				const lib = function() {
+					let createObj = (c, x, y) => {
+						return {
+							container: c,
+							x,
+							y
+						}
+					}
+					let characters = {
+						player: createObj($('.player'), 0, 0),
+						enemy: createObj($('.enemy'), 200, 0)
+					}
+					let shotPlayer = createObj($('.shot-player'), 0, 0)
+					let shotEnemy = createObj($('.shot-enemy'), 0, 0)
+
+					let redraw = () => {
+						let redrawPart = (part) => {
+							part.css('left', part.x).css('top', part.y)
+						}
+						redrawPart(player)
+						redrawPart(shotPlayer)
+						redrawPart(enemy)
+						redrawPart(shotEnemy)
+					}
+					let characterFunctions = (character) => {
+						character = characters[character]
+						return {
+							walk(side) {
+								const sides = {
+									LEFT: () => character.x += 100,
+									RIGHT: () => character.x -= 100,
+									TOP: () => character.y += 100,
+									BOT: () => character.y -= 100
+								}[side]()
+								redraw()
+							}
+						}
+					}
+					return {
+						player: characterFunctions('player'),
+						enemy:  characterFunctions('enemy')
+					}
+				}
+				window.lib = lib()
+				$('button').click(() => {
+					eval($('textarea').val())
+				})
+				redraw()
+			})
+		</script>
+	</body>
+</html>
