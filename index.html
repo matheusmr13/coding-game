@@ -6,11 +6,12 @@
 	crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
 		<link rel="stylesheet" href="https://codemirror.net/addon/hint/show-hint.css">
-		<script src="https://codemirror.net/lib/codemirror.js"></script>
-		<script src="https://codemirror.net/addon/hint/show-hint.js"></script>
-		<script src="https://codemirror.net/addon/hint/javascript-hint.js"></script>
-		<script src="https://codemirror.net/mode/javascript/javascript.js"></script>
-		<script src="https://codemirror.net/mode/markdown/markdown.js"></script>
+		<link rel="stylesheet" href="https://codemirror.net/theme/pastel-on-dark.css">
+		<script type="text/javascript" src="https://codemirror.net/lib/codemirror.js"></script>
+		<script type="text/javascript" src="https://codemirror.net/addon/hint/show-hint.js"></script>
+		<script type="text/javascript" src="https://codemirror.net/addon/hint/javascript-hint.js"></script>
+		<script type="text/javascript" src="https://codemirror.net/mode/javascript/javascript.js"></script>
+		<script type="text/javascript" src="https://codemirror.net/mode/markdown/markdown.js"></script>
 		<style>
 			body {
 				margin: 0;
@@ -68,56 +69,16 @@
 			<textarea id="code">lib.enemy.walk('LEFT')</textarea>
 			<button>exec</button>
 		</div>
+		<script src="js/tsp.js"></script>
 		<script>
 			(function() {
-				
-				const lib = function() {
-					let createObj = (c, x, y) => {
-						return {
-							container: c,
-							x,
-							y
-						}
-					}
-					let characters = {
-						player: createObj($('.player'), 0, 0),
-						enemy: createObj($('.enemy'), 200, 0)
-					}
-					let shotPlayer = createObj($('.shot-player'), 0, 0)
-					let shotEnemy = createObj($('.shot-enemy'), 0, 0)
-
-
-					let characterFunctions = (character) => {
-						character = characters[character]
-						return {
-							walk(side) {
-								const sides = {
-									LEFT: () => character.x += 100,
-									RIGHT: () => character.x -= 100,
-									TOP: () => character.y += 100,
-									BOT: () => character.y -= 100
-								}[side]()
-								redraw()
-							}
-						}
-					}
-					let redraw = () => {
-						let redrawPart = (part) => {
-							part.container.css('left', part.x).css('top', part.y)
-						}
-						redrawPart(characters.player)
-						redrawPart(shotPlayer)
-						redrawPart(characters.enemy)
-						redrawPart(shotEnemy)
-					}	
-					return {
-						player: characterFunctions('player'),
-						enemy:  characterFunctions('enemy'),
-						redraw: redraw
-					}
-				}
 				let ended = false;
 				let d 
+				const execCode = (code) => {
+					setInterval( () => {
+						execRound(code)
+					}, 1000)
+				}
 				const execRound = (code) => {
 					if (ended) {
 						alert('acaboouu')
@@ -126,7 +87,6 @@
 					eval('(function(lib){'+$('textarea').val()+'})(window.lib)')
 					d = setTimeout(() => execRound(code), 1000)
 				}
-				window.lib = lib()
 				$('button').click(() => {
 					if (d) clearInterval(d)
 					execRound($('textarea').val())
@@ -134,43 +94,7 @@
 
 				window.lib.redraw()
 			})()
-
-			var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-				lineNumbers: true,
-				extraKeys: {"Ctrl-Space": "autocomplete"},
-				mode: {name: "javascript", globalVars: true}
-			});
-
-			if (typeof Promise !== "undefined") {
-				var comp = [
-					["here", "hither"],
-					["asynchronous", "nonsynchronous"],
-					["completion", "achievement", "conclusion", "culmination", "expirations"],
-					["hinting", "advive", "broach", "imply"],
-					["function","action"],
-					["provide", "add", "bring", "give"],
-					["synonyms", "equivalents"],
-					["words", "token"],
-					["each", "every"]
-				];
-
-				function synonyms(cm, option) {
-					return new Promise(function(accept) {
-						setTimeout(function() {
-							var cursor = cm.getCursor(), line = cm.getLine(cursor.line)
-							var start = cursor.ch, end = cursor.ch
-							while (start && /\w/.test(line.charAt(start - 1))) --start
-							while (end < line.length && /\w/.test(line.charAt(end))) ++end
-							var word = line.slice(start, end).toLowerCase()
-							for (var i = 0; i < comp.length; i++) if (comp[i].indexOf(word) != -1)
-							return accept({list: comp[i],
-								from: CodeMirror.Pos(cursor.line, start),
-								to: CodeMirror.Pos(cursor.line, end)});
-							return accept(null);
-						}, 100);
-					});
-				}
-			}
 		</script>
+		<script type="text/javascript" src="js/code-editor.js"></script>
 	</body>
 </html>
