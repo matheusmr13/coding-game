@@ -8,7 +8,7 @@
 .canvas {
 	background-color: rgb(240,240,240);
 	position: relative;
-	height: 94%;
+	min-height: 94%;
 }
 .game-info {
 	background-color: #1c1817;

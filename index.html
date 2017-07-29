@@ -40,14 +40,10 @@
 				</div>
 			</div>
 			<div class="canvas">
-				<div data-game="tsp">
-					<div class="character player"></div>
-					<div class="shot shot-player" style="display: none;"></div>
-					<div class="character enemy"></div>
-					<div class="shot shot-enemy" style="display: none;"></div>
-				</div>
-				<div data-game="tetris">
-				</div>
+				<div class="character player"></div>
+				<div class="shot shot-player" style="display: none;"></div>
+				<div class="character enemy"></div>
+				<div class="shot shot-enemy" style="display: none;"></div>
 			</div> 
 		</div><div class="right-side">
 			<div class="game-buttons">
@@ -77,11 +73,12 @@
 				let ended = false;
 				let d
 				const execRound = (code) => {
-					if (ended) {
+					if (window.lib[game].ended()) {
 						alert('acaboouu')
 						return;
 					}
-					eval('(function(lib){'+code+'})(window.lib' + game + ')')
+					eval('(function(lib){'+code+'})(window.lib[' + game + '])')
+					window.lib[game].redraw()
 					d = setTimeout(() => execRound(code), 1000 / 12)
 				}
 				$('button').click(() => {
@@ -89,7 +86,7 @@
 					execRound(window.editor.getValue())
 				})
 
-				window.lib[game].init()
+				window.lib[game].init($('.canvas'))
 			})()
 		</script>
 		<script type="text/javascript" src="js/code-editor.js"></script>
