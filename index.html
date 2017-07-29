@@ -124,8 +124,12 @@ if (!lib.power.coord()) {
 
 				$('[data-test]').click(function() {
 					$(this).addClass('selected').siblings().removeClass('selected')
-					init()
+					window.location.hash = '#' + $(this).data('test')
 				})
+
+				window.onhashchange = () => {
+					init()
+				}
 			})()
 		</script>
 		<script type="text/javascript" src="js/code-editor.js"></script>
