@@ -103,14 +103,14 @@
 		<script>
 			(function() {
 				let ended = false;
-				let d 
+				let d
 				const execRound = (code) => {
 					if (ended) {
 						alert('acaboouu')
 						return;
 					}
 					eval('(function(lib){'+code+'})(window.lib)')
-					d = setTimeout(() => execRound(code), 1000)
+					d = setTimeout(() => execRound(code), 1000 / 12)
 				}
 				$('button').click(() => {
 					if (d) clearInterval(d)

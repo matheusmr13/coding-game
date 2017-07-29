@@ -1,5 +1,7 @@
 (function() {
 
+	const BASE_INC = 15
+
 	const lib = function() {
 		let createObj = (c, x, y) => {
 			return {
@@ -21,11 +23,22 @@
 			return {
 				walk(side) {
 					const sides = {
-						LEFT: () => character.x += 100,
-						RIGHT: () => character.x -= 100,
-						TOP: () => character.y += 100,
-						BOT: () => character.y -= 100
+						LEFT: () => character.x += BASE_INC,
+						RIGHT: () => character.x -= BASE_INC,
+						TOP: () => character.y += BASE_INC,
+						BOT: () => character.y -= BASE_INC
 					}[side]()
+					redraw()
+				},
+				moveTo(x, y) {
+					const theta = x == character.x ? Math.sign(y - character.y) * Math.PI / 2 : Math.atan((y - character.y) / (x - character.x))
+					const r = BASE_INC
+					let dx = r * Math.cos(theta)
+					dx = Math.abs(Math.min(dx, Math.abs(character.x - x)))
+					let dy = r * Math.sin(theta)
+					dy = Math.abs(Math.min(dy, Math.abs(character.y - y)))
+					character.x += character.x > x ? -dx : dx
+					character.y += character.y > y ? -dy : dy
 					redraw()
 				}
 			}
