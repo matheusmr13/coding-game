@@ -1,12 +1,14 @@
 (function() {
 
 	const BASE_INC = 3
-	const SCORE_INC = 3
+	const SCORE_INC = 2
 	const playerSize = 10
 
 	let player
+	let power
 	let targets
 	let myScore
+	let repulse
 	let field = {
 		min : {
 			x : 0,
@@ -67,10 +69,16 @@
 			targets.push(createObj($('.enemy').last(), t))
 		})
 
-		return {player : createObj($('.player'), scenario.player),
+		return {
+			player : createObj($('.player'), scenario.player),
+			power : createObj($('.power').show(), scenario.power),
 			targets,
 			myScore : scenario.myScore
 		}
+	}
+
+	const collided = (p, p0) => {
+		return Math.abs(p.x - p0.x) < playerSize && Math.abs(p.y - p0.y) < playerSize
 	}
 
 	const lib = () => {
@@ -78,6 +86,12 @@
 			return {
 				moveTo(coord) { player.target = coord },
 				coord() { return player.coord }
+			}
+		}
+
+		const powerFunctions = () => {
+			return {
+				coord() { return power.died ? false : power.coord }
 			}
 		}
 
@@ -93,9 +107,9 @@
 
 		const killTargets = (player, targets) => {
 			targets.forEach(t => {
-				if (!t.dead && Math.abs(t.coord.x - player.coord.x) < playerSize && Math.abs(t.coord.y - player.coord.y) < playerSize) {
-					t.dead = true
-					myScore += SCORE_INC
+				if (!t.dead && collided(t.coord, player.coord)) {
+					t.dead = repulse
+					myScore = repulse ? myScore + SCORE_INC : 0
 				} else if ((t.coord.x < field.min.x || t.coord.y < field.min.y) ||
 						   (t.coord.x > field.max.x || t.coord.y > field.max.y)) {
 					t.dead = true
@@ -120,12 +134,25 @@
 			player = updateElement(player, BASE_INC)
 			player.container.css('left', player.coord.x).css('top', player.coord.y)
 
+			if (!collided(player.coord, power.coord)) {
+				power.container.css('left', power.coord.x).css('top', power.coord.y)
+			} else {
+				repulse = true
+				power.died = true
+				power.container.hide()
+			}
+
 			targets = killTargets(player, targets)
 
 			targets.forEach(t => {
 				if (!t.dead) {
-					t.target = findInfinity(t.coord, player.coord)
-					t = updateElement(t, BASE_INC / (0.1 * distance(t.coord, player.coord)))
+					if (repulse) {
+						t.target = findInfinity(t.coord, player.coord)
+						t = updateElement(t, Math.min(0.75 * BASE_INC, BASE_INC / (0.05 * distance(t.coord, player.coord))))
+					} else {
+						t.target = player.coord
+						t = updateElement(t, BASE_INC)
+					}
 					t.container.css('left', t.coord.x).css('top', t.coord.y)
 				} else {
 					t.container.hide()
@@ -134,6 +161,7 @@
 
 			return {
 				player : characterFunctions(),
+				power : powerFunctions(),
 				targets : targetsFunctions(targets),
 				redraw : redraw,
 				hasEnded,
@@ -159,8 +187,10 @@
 		const init = (canvas, scenarioId) => {
 			const state = initState(canvas.width(), canvas.height(), scenarioId)
 			player = state.player
+			power = state.power
 			targets = state.targets
 			myScore = state.myScore
+			repulse = false
 			return redraw()
 		}
 
