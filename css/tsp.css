@@ -1,0 +1,13 @@
+.character {
+	width: 10px;
+	height: 10px;
+	position: absolute;
+}
+
+.player {
+	background-color: blue;
+}
+
+.enemy {
+	background-color: red;
+}

@@ -41,8 +41,8 @@
 
 		let player = createObj($('.player'), 100, 100)
 		let targets = [
-			createObj($('.enemy'), 200, 200),
-			createObj($('.enemy'), 520, 400),
+			createObj($('.enemy').eq(1), 200, 200),
+			createObj($('.enemy').eq(0), 520, 400),
 		]
 
 		let characterFunctions = () => {
@@ -79,10 +79,11 @@
 			player: characterFunctions(),
 			targets,
 			redraw: redraw,
-			hasEnded
+			hasEnded,
+			init: redraw
 		}
 	}
 
-	this.lib = lib()
+	this.lib.tsp = lib()
 
 }).apply(window)
