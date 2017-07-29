@@ -20,37 +20,71 @@
 				width: 100vw;
 				font-family: 'Open Sans', sans-serif;
 			}
-			.canvas {
+			.left-side {
 				position: relative;
 				height: 100vh;
 				width: 50%;
-				background-color: rgb(240,240,240);
 				display: inline-block;
 				vertical-align: top;
+			}
+			.canvas {
+				background-color: rgb(240,240,240);
+				position: relative;
+				height: 94%;
+			}
+			.game-info {
+				background-color: #1c1817;
+				position: relative;
+				height: 6%;
+			}
+			.game-score {
+				background-color: rgba(29, 31, 107, .45);
+				position: absolute;
+				top: 0;
+				right: 0;
+				width: 30%;
+				height: 100%;
+				line-height: 100%;
+				text-align: center;
+				color: #fff;
+				vertical-align: middle;
+			}
+			.game-score i {
+				font-size: 1.5em;
+				vertical-align: middle;
+				margin: .3em 1.5em .3em .3em;
+				color: rgba(255,255,255,.4);
+			}
+			.score, .round {
+				font-family: 'Patua One', cursive;
+				display: inline-block;
+				width: 30%;
+				vertical-align: middle;
+				margin-top: -.2em;
+				color: rgba(255,255,255,.8);
+			}
+			small {
+				font-family: 'Open Sans', sans-serif;
+				font-size: 0.5em;
+				display: block;
+				color: rgba(255,255,255,.6);
 			}
 			.character {
 				width: 10px;
 				height: 10px;
 				position: absolute;
 			}
-
 			.player {
 				background-color: blue;
 			}
-
 			.enemy {
 				background-color: red;
 			}
-
 			.right-side {
-				width: 50%;
 				display: inline-block;
-				height: 100vh;
 				vertical-align: top;
-			}
-			textarea {
-				width: 500px;
-				height: 100px;
+				height: 100vh;
+				width: 50%;
 			}
 			button {
 				font-family: 'Open Sans', sans-serif;
@@ -82,15 +116,18 @@
 				vertical-align: middle;
 				margin-right: .5em;
 			}
-			.right-side h1 {
+			.left-side h1 {
 				margin: 0;
 				font: normal 1em 'Patua One', cursive;
 				color: #888;
 				line-height: 2.25em;
 				padding-left: .5em;
 			}
-			.right-side h1 span {
+			.left-side h1 span {
 				color: #bbb;
+				font-size: 1.5em;
+				vertical-align: middle;
+				margin-right: .25em;
 			}
 			.CodeMirror {
 				height: 94%;
@@ -99,14 +136,27 @@
 
 	</head>
 	<body>
-		<div class="canvas">
-			<div class="character player"></div>
-			<div class="shot shot-player" style="display: none;"></div>
-			<div class="character enemy"></div>
-			<div class="shot shot-enemy" style="display: none;"></div>
+		<div class="left-side">
+			<div class="game-info">
+				<h1><span><i class="fa fa-code"></i></span> Coding Game</h1>
+				<div class="game-score">
+					<i class="fa fa-thermometer"></i>
+					<div class="round">
+						<small class="item-label">round</small> 10
+					</div>
+					<div class="score">
+						<small class="item-label">score</small> 10
+					</div>
+				</div>
+			</div>
+			<div class="canvas">
+				<div class="character player"></div>
+				<div class="shot shot-player" style="display: none;"></div>
+				<div class="character enemy"></div>
+				<div class="shot shot-enemy" style="display: none;"></div>
+			</div>
 		</div><div class="right-side">
 			<div class="game-buttons">
-				<h1><span>&lt;&gt;</span> Coding Game</h1>
 				<button><i class="fa fa-cogs"></i> run code</button>
 			</div>
 			<textarea id="code">lib.enemy.walk('LEFT')</textarea>
