@@ -54,12 +54,16 @@
 			<textarea id="code">
 const distance = (p, p0) => { return Math.sqrt(Math.pow(p.x - p0.x, 2) + Math.pow(p.y - p0.y, 2))}
 
-let min
-lib.targets.forEach( t => {
-	if (!min || distance(min, lib.player.coord()) > distance(t.coord(), lib.player.coord()))
-		min = t.coord()
-})
-lib.player.moveTo(min)</textarea>
+if (!lib.power.coord()) {
+  let min
+  lib.targets.forEach( t => {
+      if (!min || distance(min, lib.player.coord()) > distance(t.coord(), lib.player.coord()))
+          min = t.coord()
+  })
+	lib.player.moveTo(min)
+} else {
+  lib.player.moveTo(lib.power.coord())
+}</textarea>
 		</div>
 		<div class="left-side">
 			<h2>Documentation</h2>
