@@ -111,7 +111,7 @@ if (!lib.power.coord()) {
 						// Ctrl-Enter pressed
 						$('button.run').click();
 					}
-				}).text(localStorage.getItem('code') || $('textarea').text());
+				});
 
 				$('body').on('click', '.overlay, video', function() {
 					$('.overlay, video').fadeOut();
@@ -124,16 +124,8 @@ if (!lib.power.coord()) {
 
 				$('[data-test]').click(function() {
 					$(this).addClass('selected').siblings().removeClass('selected')
-					window.location.hash = '#' + $(this).data('test')
-				})
-
-				window.onhashchange = () => {
 					init()
-				}
-
-				setInterval(() => {
-					localStorage.setItem('code', window.editor.getValue())
-				}, 5000)
+				})
 			})()
 		</script>
 		<script type="text/javascript" src="js/code-editor.js"></script>
