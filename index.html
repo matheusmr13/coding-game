@@ -26,18 +26,31 @@
 		</style>
 	</head>
 	<body>
-		<div class="canvas" data-game="tsp">
-			<div  data-game="tsp">
-				<div class="character player"></div>
-				<div class="shot shot-player" style="display: none;"></div>
-				<div class="character enemy"></div>
-				<div class="shot shot-enemy" style="display: none;"></div>
+		<div class="left-side">
+			<div class="game-info">
+				<h1><span><i class="fa fa-code"></i></span> Coding Game</h1>
+				<div class="game-score">
+					<i class="fa fa-thermometer"></i>
+					<div class="round">
+						<small class="item-label">round</small> 10
+					</div>
+					<div class="score">
+						<small class="item-label">score</small> 10
+					</div>
+				</div>
 			</div>
-			<div data-game="tetris">
-			</div>
+			<div class="canvas">
+				<div data-game="tsp">
+					<div class="character player"></div>
+					<div class="shot shot-player" style="display: none;"></div>
+					<div class="character enemy"></div>
+					<div class="shot shot-enemy" style="display: none;"></div>
+				</div>
+				<div data-game="tetris">
+				</div>
+			</div> 
 		</div><div class="right-side">
 			<div class="game-buttons">
-				<h1><span>&lt;&gt;</span> Coding Game</h1>
 				<button><i class="fa fa-cogs"></i> run code</button>
 			</div>
 			<textarea id="code"></textarea>
