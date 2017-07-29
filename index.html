@@ -51,13 +51,14 @@
 				<button><i class="fa fa-cogs"></i> run code</button>
 			</div>
 			<textarea id="code">
-for (let i = 0; i < lib.targets.length; i++) {
-  if (!lib.targets[i].dead) {
-    lib.player.moveTo(lib.targets[i].coord)
-    break
-  }
-}
-			</textarea>
+const distance = (p, p0) => { return Math.sqrt(Math.pow(p.x - p0.x, 2) + Math.pow(p.y - p0.y, 2))}
+
+let min
+lib.targets.forEach( t => {
+	if (!min || distance(min, lib.player.coord()) > distance(t.coord(), lib.player.coord()))
+		min = t.coord()
+})
+lib.player.moveTo(min)</textarea>
 		</div>
 		<script>
 			window.lib = {}

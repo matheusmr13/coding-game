@@ -1,7 +1,22 @@
 (function() {
 
 	const BASE_INC = 3
-	const PLAYER_SIZE = 10
+	const SCORE_INC = 2
+	const playerSize = 10
+
+	let player
+	let targets
+	let myScore
+	let field = {
+		min : {
+			x : 0,
+			y : 0
+		},
+		max : {
+			x : 0,
+			y : 0
+		}
+	}
 
 	const calculateTheta = (p, p0) => {
 		return p.x == p0.x ? Math.sign(p.y - p0.y) * Math.PI / 2 : Math.atan((p.y - p0.y) / (p.x - p0.x))
@@ -15,6 +30,23 @@
 		return Math.abs(Math.min(r * Math.sin(theta), Math.abs(y - y0)))
 	}
 
+	const distance = (p, p0) => {
+		return Math.sqrt(Math.pow(p.x - p0.x, 2) + Math.pow(p.y - p0.y, 2))
+	}
+
+	const findInfinity = (p, p0) => {
+		const r = 1000
+		const theta = calculateTheta(p, p0)
+		let dx = Math.abs(r * Math.cos(theta))
+		let dy = Math.abs(r * Math.sin(theta))
+
+		let pf = {x: p0.x, y: p0.y}
+		pf.x += pf.x > p.x ? -dx : dx
+		pf.y += pf.y > p.y ? -dy : dy
+
+		return pf
+	}
+
 	const createObj = (c, x, y) => {
 		return {
 			container : c.show(),
@@ -24,36 +56,46 @@
 		}
 	}
 
-	const initState = () => {
+	const initState = (w, h) => {
+		field.max = {x: w, y: h}
 		$('.enemy').remove()
-		let player = createObj($('.player'), 100, 100)
+		let player = createObj($('.player'), w / 2, h / 2)
 		let numberOfTargets = 6
 		let targets = []
 		for (let i = 0; i < numberOfTargets; i++) {
 			$('<div class="character enemy"></div>').appendTo('[data-game="tsp"]')
-			targets.push(createObj($('.enemy').last(), Math.random() * 600, Math.random() * 600))
+			targets.push(createObj($('.enemy').last(), Math.random() * w, Math.random() * h))
 		}
-		let myScore = 10
+		let myScore = 2
 
 		return {player, targets, myScore}
 	}
 
 	const lib = () => {
-		let player
-		let targets
-		let myScore
-
-		let characterFunctions = () => {
+		const characterFunctions = () => {
 			return {
-				moveTo(coord) {
-					player.target = coord
-				}
+				moveTo(coord) { player.target = coord },
+				coord() { return player.coord }
 			}
+		}
+
+		const targetsFunctions = (targets) => {
+			let ts = []
+			targets = targets || []
+			targets.filter(t => {return !t.dead}).forEach( t => {
+				ts.push({ coord() { return t.coord }})
+			})
+
+			return ts
 		}
 
 		const killTargets = (player, targets) => {
 			targets.forEach(t => {
-				if (Math.abs(t.coord.x - player.coord.x) < PLAYER_SIZE && Math.abs(t.coord.y - player.coord.y) < PLAYER_SIZE) {
+				if (!t.dead && Math.abs(t.coord.x - player.coord.x) < playerSize && Math.abs(t.coord.y - player.coord.y) < playerSize) {
+					t.dead = true
+					myScore += SCORE_INC
+				} else if ((t.coord.x < field.min.x || t.coord.y < field.min.y) ||
+						   (t.coord.x > field.max.x || t.coord.y > field.max.y)) {
 					t.dead = true
 				}
 			})
@@ -61,26 +103,27 @@
 			return targets
 		}
 
-		const updatePlayer = (player) => {
-			const {x, y}  = player.target
-			const theta = calculateTheta(player.target, player.coord)
-			const r = BASE_INC
-			let dx = calculateDx(r, theta, x, player.coord.x)
-			let dy = calculateDy(r, theta, y, player.coord.y)
-			player.coord.x += player.coord.x > x ? -dx : dx
-			player.coord.y += player.coord.y > y ? -dy : dy
+		const updateElement = (e, r) => {
+			const {x, y}  = e.target
+			const theta = calculateTheta(e.target, e.coord)
+			let dx = calculateDx(r, theta, x, e.coord.x)
+			let dy = calculateDy(r, theta, y, e.coord.y)
+			e.coord.x += e.coord.x > x ? -dx : dx
+			e.coord.y += e.coord.y > y ? -dy : dy
 
-			return player
+			return e
 		}
 
 		let redraw = () => {
-			player = updatePlayer(player)
+			player = updateElement(player, BASE_INC)
 			player.container.css('left', player.coord.x).css('top', player.coord.y)
 
 			targets = killTargets(player, targets)
 
 			targets.forEach(t => {
 				if (!t.dead) {
+					t.target = findInfinity(t.coord, player.coord)
+					t = updateElement(t, BASE_INC / (0.1 * distance(t.coord, player.coord)))
 					t.container.css('left', t.coord.x).css('top', t.coord.y)
 				} else {
 					t.container.hide()
@@ -88,9 +131,9 @@
 			})
 
 			return {
-				player: characterFunctions(),
-				targets,
-				redraw: redraw,
+				player : characterFunctions(),
+				targets : targetsFunctions(targets),
+				redraw : redraw,
 				hasEnded,
 				init,
 				score
@@ -111,8 +154,8 @@
 			return myScore--
 		}
 
-		const init = () => {
-			const state = initState()
+		const init = (canvas) => {
+			const state = initState(canvas.width(), canvas.height())
 			player = state.player
 			targets = state.targets
 			myScore = state.myScore
@@ -120,9 +163,9 @@
 		}
 
 		return {
-			player: characterFunctions(),
-			targets,
-			redraw: redraw,
+			player : characterFunctions(),
+			targets : targetsFunctions(targets),
+			redraw : redraw,
 			hasEnded,
 			init,
 			score
