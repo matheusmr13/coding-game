@@ -43,3 +43,8 @@ $('textarea').keydown(function (e) {
 		$('button').click();
 	}
 });
+
+$('body').on('click', '.overlay', function() {
+	$(this).remove();
+	$('iframe').remove();
+});

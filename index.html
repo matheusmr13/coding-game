@@ -42,18 +42,24 @@
 			<div class="canvas">
 				<div data-game="tsp">
 					<div class="character player"></div>
-					<div class="shot shot-player" style="display: none;"></div>
 					<div class="character enemy"></div>
-					<div class="shot shot-enemy" style="display: none;"></div>
+					<div class="character enemy"></div>
 				</div>
 				<div data-game="tetris">
 				</div>
-			</div> 
+			</div>
 		</div><div class="right-side">
 			<div class="game-buttons">
 				<button><i class="fa fa-cogs"></i> run code</button>
 			</div>
-			<textarea id="code"></textarea>
+			<textarea id="code">
+for (let i = 0; i < lib.tsp.targets.length; i++) {
+  if (!lib.tsp.targets[i].dead) {
+    lib.tsp.player.moveTo(lib.tsp.targets[i].x, lib.tsp.targets[i].y)
+    break
+  }
+}
+			</textarea>
 		</div>
 		<script>
 			window.lib = {}
@@ -71,18 +77,17 @@
 					if (!results[2]) return '';
 					return decodeURIComponent(results[2].replace(/\+/g, " "));
 				}
-				
-				let game = getParameterByName('game') || 'tsp'
 
-				let ended = false;
+				let game = getParameterByName('game') || 'tsp'
 				let d
 				const execRound = (code) => {
-					if (ended) {
+					if (lib.tsp.hasEnded()) {
 						$('body').append('<div class="overlay" />').append('<iframe src="https://giphy.com/embed/UomtITuXq8kvK" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>');
 						return;
 					}
-					eval('(function(lib){'+code+'})(window.lib' + game + ')')
-					d = setTimeout(() => execRound(code), 1000 / 12)
+					eval('(function(lib){'+code+'})(window.lib)')
+					lib.tsp.redraw()
+					d = setTimeout(() => execRound(code), 1000 / 60)
 				}
 				$('button').click(() => {
 					if (d) clearInterval(d)
