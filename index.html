@@ -6,6 +6,7 @@
 	crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
 		<link rel="stylesheet" href="https://codemirror.net/addon/hint/show-hint.css">
+		<link rel="stylesheet" href="https://codemirror.net/theme/pastel-on-dark.css">
 		<script src="https://codemirror.net/lib/codemirror.js"></script>
 		<script src="https://codemirror.net/addon/hint/show-hint.js"></script>
 		<script src="https://codemirror.net/addon/hint/javascript-hint.js"></script>
@@ -15,13 +16,15 @@
 			body {
 				margin: 0;
 				padding: 0;
+				width: 100vw;
 			}
 			.canvas {
 				position: relative;
 				height: 100vh;
-				width: 50vw;
+				width: 50%;
 				background-color: rgb(240,240,240);
 				display: inline-block;
+				vertical-align: top;
 			}
 			.character {
 				width: 10px;
@@ -38,9 +41,10 @@
 			}
 
 			.right-side {
-				width: 50vw;
+				width: 50%;
 				display: inline-block;
-				height: 100vw;
+				height: 100vh;
+				vertical-align: top;
 			}
 			textarea {
 				width: 500px;
@@ -88,6 +92,8 @@
 				extraKeys: {"Ctrl-Space": "autocomplete"},
 				mode: {name: "javascript", globalVars: true}
 			});
+
+			editor.setOption("theme", 'pastel-on-dark');
 
 			if (typeof Promise !== "undefined") {
 				var comp = [
