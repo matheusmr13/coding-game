@@ -5,7 +5,8 @@
 	window.init = () => {
 		time = 0
 		startRun = null
-		window.lib[game] = window.lib[game].init($('.canvas'), $('[data-test].selected').data('test'))
+		const scenarioId = parseInt((window.location.hash + '').replace('#', '')) || 1
+		window.lib[game] = window.lib[game].init($('.canvas'), scenarioId)
 	}
 
 	function getParameterByName(name, url) {
