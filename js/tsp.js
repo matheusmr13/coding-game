@@ -42,7 +42,7 @@
 		let player = createObj($('.player'), 100, 100)
 		let targets = [
 			createObj($('.enemy').eq(1), 200, 200),
-			createObj($('.enemy').eq(0), 520, 400),
+			createObj($('.enemy').eq(0), 520, 400)
 		]
 
 		let characterFunctions = () => {
@@ -62,6 +62,8 @@
 			targets.forEach(t => {
 				if (!t.dead) {
 					t.container.css('left', t.x).css('top', t.y)
+				} else {
+					t.container.hide()
 				}
 			})
 		}
