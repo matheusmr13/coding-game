@@ -8,18 +8,17 @@
 	}
 
 	const calculateDx = (r, theta, x, x0) => {
-		return Math.abs(Math.min(r * Math.cos(theta), Math.abs(x0 - x)))
+		return Math.abs(Math.min(r * Math.cos(theta), Math.abs(x - x0)))
 	}
 
 	const calculateDy = (r, theta, y, y0) => {
-		return Math.abs(Math.min(r * Math.sin(theta), Math.abs(y0 - y)))
+		return Math.abs(Math.min(r * Math.sin(theta), Math.abs(y - y0)))
 	}
 
 	const createObj = (c, x, y) => {
 		return {
-			container: c,
-			x,
-			y,
+			container : c,
+			coord: {x, y},
 			target : {x, y},
 			dead : false
 		}
@@ -34,15 +33,15 @@
 
 		let characterFunctions = () => {
 			return {
-				moveTo(x, y) {
-					player.target = {x, y}
+				moveTo(coord) {
+					player.target = coord
 				}
 			}
 		}
 
 		const killTargets = () => {
 			targets.forEach(t => {
-				if (Math.abs(t.x - player.x) < PLAYER_SIZE && Math.abs(t.y - player.y) < PLAYER_SIZE) {
+				if (Math.abs(t.coord.x - player.coord.x) < PLAYER_SIZE && Math.abs(t.coord.y - player.coord.y) < PLAYER_SIZE) {
 					t.dead = true
 				}
 			})
@@ -50,27 +49,27 @@
 			return targets
 		}
 
-		const updatePlayer = () => {
+		const updatePlayer = (player) => {
 			const {x, y}  = player.target
-			const theta = calculateTheta(player.target, player)
+			const theta = calculateTheta(player.target, player.coord)
 			const r = BASE_INC
-			let dx = calculateDx(r, theta, x, player.x)
-			let dy = calculateDy(r, theta, y, player.y)
-			player.x += player.x > x ? -dx : dx
-			player.y += player.y > y ? -dy : dy
+			let dx = calculateDx(r, theta, x, player.coord.x)
+			let dy = calculateDy(r, theta, y, player.coord.y)
+			player.coord.x += player.coord.x > x ? -dx : dx
+			player.coord.y += player.coord.y > y ? -dy : dy
 
 			return player
 		}
 
 		let redraw = () => {
 			player = updatePlayer(player)
-			player.container.css('left', player.x).css('top', player.y)
+			player.container.css('left', player.coord.x).css('top', player.coord.y)
 
 			targets = killTargets(player, targets)
 
 			targets.forEach(t => {
 				if (!t.dead) {
-					t.container.css('left', t.x).css('top', t.y)
+					t.container.css('left', t.coord.x).css('top', t.coord.y)
 				} else {
 					t.container.hide()
 				}

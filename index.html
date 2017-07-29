@@ -55,7 +55,7 @@
 			<textarea id="code">
 for (let i = 0; i < lib.targets.length; i++) {
   if (!lib.targets[i].dead) {
-    lib.player.moveTo(lib.targets[i].x, lib.targets[i].y)
+    lib.player.moveTo(lib.targets[i].coord)
     break
   }
 }
