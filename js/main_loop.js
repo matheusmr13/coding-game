@@ -6,6 +6,7 @@
 		time = 0
 		startRun = null
 		const scenarioId = parseInt((window.location.hash + '').replace('#', '')) || 1
+		$('.item-value').text('-')
 		window.lib[game] = window.lib[game].init($('.canvas'), scenarioId)
 	}
 
