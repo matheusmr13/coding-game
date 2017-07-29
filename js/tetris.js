@@ -244,10 +244,33 @@
 
 			if (willColide) {
 				for (var i = 0; i < 20;i++) {
+					let fullLine = true
 					for (var j = 0; j < 10; j++) {
 						if (matrix[i][j] === 1) {
 							matrix[i][j] = actual.type.color
 						}
+						if (!matrix[i][j]) {
+							fullLine = false
+						}
+					}
+
+					if (fullLine) {
+						console.info('deve zerar a linha')
+						divMatrix[i][0].parent().remove()
+
+						matrix.splice(i, 1)
+						matrix.unshift(Array(10).fill(0))
+						divMatrix.splice(i, 1)
+
+						const divRow = []
+						const row = $('<div class="row">')
+						for (var j = 0; j < 10; j++) {
+							const col = $('<div class="col"></div>')
+							divRow.push(col)
+							row.append(col)
+						}
+						container.prepend(row)
+						divMatrix.unshift(divRow)
 					}
 				}
 				if (actual.x < 1) {
