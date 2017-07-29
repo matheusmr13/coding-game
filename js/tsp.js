@@ -3,42 +3,29 @@
 	const BASE_INC = 3
 	const PLAYER_SIZE = 10
 
-	function updatePlayer(player) {
-		const x  = player.target.x
-		const y  = player.target.y
-		const theta = x == player.x ? Math.sign(y - player.y) * Math.PI / 2 : Math.atan((y - player.y) / (x - player.x))
-		const r = BASE_INC
-		let dx = r * Math.cos(theta)
-		dx = Math.abs(Math.min(dx, Math.abs(player.x - x)))
-		let dy = r * Math.sin(theta)
-		dy = Math.abs(Math.min(dy, Math.abs(player.y - y)))
-		player.x += player.x > x ? -dx : dx
-		player.y += player.y > y ? -dy : dy
-
-		return player
+	const calculateTheta = (p, p0) => {
+		return p.x == p0.x ? Math.sign(p.y - p0.y) * Math.PI / 2 : Math.atan((p.y - p0.y) / (p.x - p0.x))
 	}
 
-	function killTargets(player, targets) {
-		targets.forEach(t => {
-			if (Math.abs(t.x - player.x) < PLAYER_SIZE && Math.abs(t.y - player.y) < PLAYER_SIZE) {
-				t.dead = true
-			}
-		})
-
-		return targets
+	const calculateDx = (r, theta, x, x0) => {
+		return Math.abs(Math.min(r * Math.cos(theta), Math.abs(x0 - x)))
 	}
 
-	const lib = function() {
-		let createObj = (c, x, y) => {
-			return {
-				container: c,
-				x,
-				y,
-				target : {x, y},
-				dead : false
-			}
+	const calculateDy = (r, theta, y, y0) => {
+		return Math.abs(Math.min(r * Math.sin(theta), Math.abs(y0 - y)))
+	}
+
+	const createObj = (c, x, y) => {
+		return {
+			container: c,
+			x,
+			y,
+			target : {x, y},
+			dead : false
 		}
+	}
 
+	const lib = () => {
 		let player = createObj($('.player'), 100, 100)
 		let targets = [
 			createObj($('.enemy').eq(0), 520, 400),
@@ -51,6 +38,28 @@
 					player.target = {x, y}
 				}
 			}
+		}
+
+		const killTargets = () => {
+			targets.forEach(t => {
+				if (Math.abs(t.x - player.x) < PLAYER_SIZE && Math.abs(t.y - player.y) < PLAYER_SIZE) {
+					t.dead = true
+				}
+			})
+
+			return targets
+		}
+
+		const updatePlayer = () => {
+			const {x, y}  = player.target
+			const theta = calculateTheta(player.target, player)
+			const r = BASE_INC
+			let dx = calculateDx(r, theta, x, player.x)
+			let dy = calculateDy(r, theta, y, player.y)
+			player.x += player.x > x ? -dx : dx
+			player.y += player.y > y ? -dy : dy
+
+			return player
 		}
 
 		let redraw = () => {
