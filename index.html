@@ -151,28 +151,28 @@
 			</div>
 			<div class="canvas">
 				<div class="character player"></div>
-				<div class="shot shot-player" style="display: none;"></div>
 				<div class="character enemy"></div>
-				<div class="shot shot-enemy" style="display: none;"></div>
+				<div class="character enemy"></div>
 			</div>
 		</div><div class="right-side">
 			<div class="game-buttons">
 				<button><i class="fa fa-cogs"></i> run code</button>
 			</div>
-			<textarea id="code">lib.enemy.walk('LEFT')</textarea>
+			<textarea id="code">lib.player.moveTo(200,200)</textarea>
 		</div>
 		<script src="js/tsp.js"></script>
 		<script>
 			(function() {
-				let ended = false;
+				let ended = false
 				let d
 				const execRound = (code) => {
-					if (ended) {
+					if (lib.hasEnded()) {
 						alert('acaboouu')
 						return;
 					}
 					eval('(function(lib){'+code+'})(window.lib)')
-					d = setTimeout(() => execRound(code), 1000 / 12)
+					lib.redraw()
+					d = setTimeout(() => execRound(code), 1000 / 60)
 				}
 				$('button').click(() => {
 					if (d) clearInterval(d)
