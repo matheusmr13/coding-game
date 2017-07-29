@@ -71,7 +71,7 @@
 		})
 
 		return {
-			player : createObj($('.player'), scenario.player),
+			player : createObj($('.player').removeClass('power'), scenario.player),
 			power : createObj($('.power').show(), scenario.power),
 			targets,
 			myScore : scenario.myScore
@@ -141,6 +141,7 @@
 				repulse = true
 				power.died = true
 				power.container.hide()
+				player.container.addClass('power')
 			}
 
 			targets = killTargets(player, targets)
