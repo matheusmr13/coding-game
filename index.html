@@ -27,7 +27,7 @@
 			}
 
 			textarea {
-				width: 200px;
+				width: 500px;
 				height: 100px;
 			}
 		</style>
@@ -40,12 +40,14 @@
 			<div class="character enemy"></div>
 			<div class="shot shot-enemy" style="display: none;"></div>
 		</div>
-		<textarea>
+		<textarea>			
+			lib.enemy.walk('LEFT')
 			
 		</textarea>
 		<button>exec</button>
 		<script>
 			(function() {
+				
 				const lib = function() {
 					let createObj = (c, x, y) => {
 						return {
@@ -61,15 +63,7 @@
 					let shotPlayer = createObj($('.shot-player'), 0, 0)
 					let shotEnemy = createObj($('.shot-enemy'), 0, 0)
 
-					let redraw = () => {
-						let redrawPart = (part) => {
-							part.css('left', part.x).css('top', part.y)
-						}
-						redrawPart(player)
-						redrawPart(shotPlayer)
-						redrawPart(enemy)
-						redrawPart(shotEnemy)
-					}
+
 					let characterFunctions = (character) => {
 						character = characters[character]
 						return {
@@ -84,17 +78,27 @@
 							}
 						}
 					}
+					let redraw = () => {
+						let redrawPart = (part) => {
+							part.container.css('left', part.x).css('top', part.y)
+						}
+						redrawPart(characters.player)
+						redrawPart(shotPlayer)
+						redrawPart(characters.enemy)
+						redrawPart(shotEnemy)
+					}	
 					return {
 						player: characterFunctions('player'),
-						enemy:  characterFunctions('enemy')
+						enemy:  characterFunctions('enemy'),
+						redraw: redraw
 					}
 				}
 				window.lib = lib()
 				$('button').click(() => {
-					eval($('textarea').val())
+					eval('(function(lib){'+$('textarea').val()+'})(window.lib)')
 				})
-				redraw()
-			})
+				window.lib.redraw()
+			})()
 		</script>
 	</body>
 </html>
