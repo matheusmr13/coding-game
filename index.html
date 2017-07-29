@@ -31,11 +31,11 @@
 				<h1><span><i class="fa fa-code"></i></span> DexCoding</h1>
 				<div class="game-score">
 					<i class="fa fa-thermometer"></i>
-					<div class="round">
-						<small class="item-label">round</small> 10
+					<div class="time">
+						<small class="item-label">Time</small> <span class="item-value">-</span>
 					</div>
 					<div class="score">
-						<small class="item-label">score</small> 10
+						<small class="item-label">score</small> <span class="item-value">-</span>
 					</div>
 				</div>
 			</div>
@@ -68,6 +68,26 @@ for (let i = 0; i < lib.targets.length; i++) {
 		<script src="js/tetris.js"></script>
 		<script>
 			(function() {
+				let startRun = null
+				let time = null
+				const init = () => {
+					time = 0
+					startRun = null
+					window.lib[game].init()
+				}
+
+				$('textarea').keydown(function (e) {
+					if (e.ctrlKey && e.keyCode == 13) {
+						// Ctrl-Enter pressed
+						$('button').click();
+					}
+				});
+
+				$('body').on('click', '.overlay, video', function() {
+					$('.overlay, video').fadeOut();
+					init()
+				});
+
 				function getParameterByName(name, url) {
 					if (!url) url = window.location.href;
 					name = name.replace(/[\[\]]/g, "\\$&");
@@ -79,26 +99,41 @@ for (let i = 0; i < lib.targets.length; i++) {
 				}
 
 				let game = getParameterByName('game') || 'tsp'
-				let d
-				const execRound = (code) => {
-					if (window.lib[game].hasEnded()) {
-						$('body').find('.overlay, video').fadeIn();
+				const execRound = (code, timestamp) => {
+					if (!startRun || timestamp - startRun >= 1000) {
+						$('.time .item-value').text(time++)
+						startRun = timestamp
+
+						$('.score .item-value').text(window.lib[game].score())
+					}
+
+					const {ended, win} = window.lib[game].hasEnded()
+					if (ended) {
+						if (win) {
+							$('body').find('.overlay, .video-win').fadeIn()
+						} else {
+							$('body').find('.overlay, .video-loose').fadeIn()
+						}
 						return;
 					}
+
 					eval('(function(lib){'+code+'})(window.lib[\''+game+'\'])')
-					window.lib[game].redraw()
-					d = setTimeout(() => execRound(code), 1000 / 60)
+					window.lib[game] = window.lib[game].redraw()
+
+					window.requestAnimationFrame((timestamp) => execRound(code, timestamp))
 				}
+
 				$('button').click(() => {
-					if (d) clearInterval(d)
-					execRound(window.editor.getValue())
+					const code = window.editor.getValue()
+					window.requestAnimationFrame((timestamp) => execRound(code, timestamp))
 				})
 
-				window.lib[game].init()
+				init()
 			})()
 		</script>
 		<script type="text/javascript" src="js/code-editor.js"></script>
-		<video alt=" rap snoop dogg thug life 50cent GIF" src="https://media.giphy.com/media/UomtITuXq8kvK/giphy.mp4" poster="https://media.giphy.com/media/UomtITuXq8kvK/giphy_s.gif" autoplay="" loop="" playsinline="" style="width: 60%; height: 60%;"></video>
+		<video class="video-win" src="https://media.giphy.com/media/UomtITuXq8kvK/giphy.mp4" poster="https://media.giphy.com/media/UomtITuXq8kvK/giphy_s.gif" autoplay="" loop="" playsinline="" style="width: 60%; height: 60%;"></video>
+		<video class="video-loose" src="https://media.giphy.com/media/xT5LMpBWU96Yivdfeo/giphy.mp4" poster="https://media.giphy.com/media/xT5LMpBWU96Yivdfeo/giphy.mp4" autoplay="" loop="" playsinline="" style="width: 60%; height: 60%;"></video>
 		<div class="overlay">click to close</div>
 	</body>
 </html>
