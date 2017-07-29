@@ -41,8 +41,8 @@
 
 		let player = createObj($('.player'), 100, 100)
 		let targets = [
-			createObj($('.enemy').eq(1), 200, 200),
-			createObj($('.enemy').eq(0), 520, 400)
+			createObj($('.enemy').eq(0), 520, 400),
+			createObj($('.enemy').eq(1), 100, 200)
 		]
 
 		let characterFunctions = () => {
