@@ -25,21 +25,23 @@
 	}
 
 	const initState = () => {
+		$('.enemy').remove()
 		let player = createObj($('.player'), 100, 100)
-		let targets = [
-			createObj($('.enemy').eq(0), 520, 400),
-			createObj($('.enemy').eq(1), 100, 200)
-		]
-		let myScore = 4
+		let numberOfTargets = 6
+		let targets = []
+		for (let i = 0; i < numberOfTargets; i++) {
+			$('<div class="character enemy"></div>').appendTo('[data-game="tsp"]')
+			targets.push(createObj($('.enemy').last(), Math.random() * 600, Math.random() * 600))
+		}
+		let myScore = 10
 
 		return {player, targets, myScore}
 	}
 
 	const lib = () => {
-		const state = initState()
-		let player = state.player
-		let targets = state.targets
-		let myScore = state.myScore
+		let player
+		let targets
+		let myScore
 
 		let characterFunctions = () => {
 			return {
@@ -114,7 +116,7 @@
 			player = state.player
 			targets = state.targets
 			myScore = state.myScore
-			redraw()
+			return redraw()
 		}
 
 		return {

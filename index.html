@@ -42,8 +42,6 @@
 			<div class="canvas">
 				<div data-game="tsp">
 					<div class="character player"></div>
-					<div class="character enemy"></div>
-					<div class="character enemy"></div>
 				</div>
 				<div data-game="tetris">
 				</div>
@@ -73,7 +71,7 @@ for (let i = 0; i < lib.targets.length; i++) {
 				const init = () => {
 					time = 0
 					startRun = null
-					window.lib[game].init()
+					window.lib[game] = window.lib[game].init()
 				}
 
 				$('textarea').keydown(function (e) {
