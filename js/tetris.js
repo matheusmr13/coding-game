@@ -167,19 +167,39 @@
 			]
 		}
 	}
+
+	let updateNextType = (nextType) => {
+		const nextTypeObj = types[nextType]
+		for (var i=0; i < 4;i++) {
+			for (var j=0; j< 4;j++) {
+				if (nextTypeObj.matrix[0][i][j]) {
+					divNextMatrix[i][j].css('background-color', nextTypeObj.color)
+				} else {
+					divNextMatrix[i][j].css('background-color', 'gray')
+				}
+			}
+		}
+		
+	}
 		
 	let actual = {}
+	let nextType = Object.keys(types)[Math.floor(Math.random()*Object.keys(types).length)]
 	let newActual = () => {
-		let type = Object.keys(types)[Math.floor(Math.random()*Object.keys(types).length)]
+		let type = nextType
+		nextType = Object.keys(types)[Math.floor(Math.random()*Object.keys(types).length)]
+		updateNextType(nextType)
 		actual.type = types[type]
 		actual.typeKey = type
 		actual.position = 0
 		actual.x = -2
 		actual.y = 5
 	}
+
+
 	let score = 0
 	let matrix = [];
 	let divMatrix = [];
+	let divNextMatrix = [];
 	let container
 	const reset = () => {
 		for (var i = 0; i < 20;i++) {
@@ -255,7 +275,6 @@
 					}
 
 					if (fullLine) {
-						console.info('deve zerar a linha')
 						divMatrix[i][0].parent().remove()
 
 						matrix.splice(i, 1)
@@ -318,6 +337,7 @@
 			container = _container;
 			container.html('')
 			divMatrix = []
+			const table = $('<div class="table"></div>')
 			for (var i = 0; i < 20;i++) {
 				const divRow = []
 				const row = $('<div class="row">')
@@ -326,9 +346,25 @@
 					divRow.push(col)
 					row.append(col)
 				}
-				container.append(row)
+				table.append(row)
 				divMatrix.push(divRow)
 			}
+			container.append(table)
+
+			const nextTable = $('<div class="next-token"></div>')
+
+			for (var i = 0; i < 4;i++) {
+				const divRow = []
+				const row = $('<div class="row">')
+				for (var j = 0; j < 4; j++) {
+					const col = $('<div class="col"></div>')
+					divRow.push(col)
+					row.append(col)
+				}
+				divNextMatrix.push(divRow)
+				nextTable.append(row)
+			}
+			container.append(nextTable)
 			matrix = []
 			ended = false
 			newActual()
