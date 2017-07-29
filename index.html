@@ -55,7 +55,7 @@
 				background: #1d1f6b;
 				border: none;
 				text-align: center;
-				font: normal 1em 'Patua One', cursive;
+				font-size: .875em;
 				color: #fff;
 				padding: .25em 1em;
 			}
@@ -66,8 +66,9 @@
 			}
 			.game-buttons button {
 				position: absolute;
-				right: 4px;
-				top: 4px;
+				height: 100%;
+				right: 0;
+				top: 0;
 			}
 			.right-side h1 {
 				margin: 0;
@@ -75,6 +76,9 @@
 				color: #888;
 				line-height: 2.25em;
 				padding-left: .5em;
+			}
+			.right-side h1 span {
+				color: #bbb;
 			}
 			.CodeMirror {
 				height: 94%;
@@ -90,7 +94,7 @@
 			<div class="shot shot-enemy" style="display: none;"></div>
 		</div><div class="right-side">
 			<div class="game-buttons">
-				<h1>&lt;&gt; Coding Game</h1>
+				<h1><span>&lt;&gt;</span> Coding Game</h1>
 				<button>execute</button>
 			</div>
 			<textarea id="code">lib.enemy.walk('LEFT')</textarea>
