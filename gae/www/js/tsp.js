@@ -85,7 +85,12 @@
 	const lib = () => {
 		const characterFunctions = () => {
 			return {
-				moveTo(coord) { player.target = coord },
+				moveTo(coord) {
+					if (!coord || typeof coord.x !== 'number' || typeof coord.y !== 'number') {
+						return
+					}
+					player.target = coord
+				},
 				coord() { return player.coord }
 			}
 		}
@@ -122,11 +127,20 @@
 
 		const updateElement = (e, r) => {
 			const {x, y}  = e.target
+			if (typeof x !== 'number' || typeof y !== 'number') {
+				return e
+			}
+			const {x0, y0} = e.coord
 			const theta = calculateTheta(e.target, e.coord)
 			let dx = calculateDx(r, theta, x, e.coord.x)
 			let dy = calculateDy(r, theta, y, e.coord.y)
 			e.coord.x += e.coord.x > x ? -dx : dx
 			e.coord.y += e.coord.y > y ? -dy : dy
+
+			if (typeof e.coord.x !== 'number' || typeof e.coord.y !== 'number') {
+				e.coord = {x: x0, y: y0}
+				return e
+			}
 
 			return e
 		}
