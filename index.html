@@ -40,12 +40,19 @@
 				</div>
 			</div>
 			<div class="canvas">
+<<<<<<< HEAD
 				<div data-game="tsp">
 					<div class="character player"></div>
 				</div>
 				<div data-game="tetris">
 				</div>
 			</div>
+=======
+				<div class="character player"></div>
+				<div class="character enemy"></div>
+				<div class="character enemy"></div>
+			</div>
+>>>>>>> e616d87082d194219eb3134cc27b814359ec5e11
 		</div><div class="right-side">
 			<div class="game-buttons">
 				<button><i class="fa fa-cogs"></i> run code</button>
@@ -57,6 +64,8 @@ for (let i = 0; i < lib.targets.length; i++) {
     break
   }
 }
+lib.goToColumn(1+Math.floor(Math.random()*6))
+lib.rotate()
 			</textarea>
 		</div>
 		<script>
@@ -71,7 +80,7 @@ for (let i = 0; i < lib.targets.length; i++) {
 				const init = () => {
 					time = 0
 					startRun = null
-					window.lib[game] = window.lib[game].init()
+					window.lib[game] = window.lib[game].init($('.canvas'))
 				}
 
 				$('textarea').keydown(function (e) {
@@ -98,7 +107,7 @@ for (let i = 0; i < lib.targets.length; i++) {
 
 				let game = getParameterByName('game') || 'tsp'
 				const execRound = (code, timestamp) => {
-					if (!startRun || timestamp - startRun >= 1000) {
+					if (!startRun || timestamp - startRun >= 10000) {
 						$('.time .item-value').text(time++)
 						startRun = timestamp
 
@@ -127,6 +136,9 @@ for (let i = 0; i < lib.targets.length; i++) {
 				})
 
 				init()
+				if (game === 'tetris') {
+					window.lib.tetris.mountDriver()
+				}
 			})()
 		</script>
 		<script type="text/javascript" src="js/code-editor.js"></script>
