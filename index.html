@@ -54,16 +54,30 @@
 			<textarea id="code">
 const distance = (p, p0) => { return Math.sqrt(Math.pow(p.x - p0.x, 2) + Math.pow(p.y - p0.y, 2))}
 
+let p =[
+	{x:10, y:300},
+	lib.power.coord()
+]
+if (!lib.vars.position)
+	lib.vars.position = 0
+if (lib.vars.position < p.length - 1 && distance(p[lib.vars.position], lib.player.coord()) < 20) {
+	lib.vars.position++
+}
+
+
 if (!lib.power.coord()) {
-  let min
-  lib.targets.forEach( t => {
-      if (!min || distance(min, lib.player.coord()) > distance(t.coord(), lib.player.coord()))
-          min = t.coord()
-  })
+	let min
+    lib.targets.forEach( t => {
+		if (!min || distance(min, lib.player.coord()) > distance(t.coord(), lib.player.coord()))
+			min = t.coord()
+	})
 	lib.player.moveTo(min)
 } else {
-  lib.player.moveTo(lib.power.coord())
-}</textarea>
+	lib.player.moveTo(p[lib.vars.position])
+}
+
+
+</textarea>
 		</div>
 		<div class="left-side">
 			<h2>Documentation</h2>
@@ -110,8 +124,8 @@ if (!lib.power.coord()) {
 			})()
 		</script>
 		<script type="text/javascript" src="js/code-editor.js"></script>
-		<video class="video-win" src="https://media.giphy.com/media/UomtITuXq8kvK/giphy.mp4" poster="https://media.giphy.com/media/UomtITuXq8kvK/giphy_s.gif" autoplay="" loop="" playsinline="" style="width: 60%; height: 60%;"></video>
-		<video class="video-loose" src="https://media.giphy.com/media/xT5LMpBWU96Yivdfeo/giphy.mp4" poster="https://media.giphy.com/media/xT5LMpBWU96Yivdfeo/giphy.mp4" autoplay="" loop="" playsinline="" style="width: 60%; height: 60%;"></video>
+		<video class="video-win" src="https://media.giphy.com/media/jd6TVgsph6w7e/giphy.mp4" poster="https://media.giphy.com/media/jd6TVgsph6w7e/giphy.mp4" autoplay="" loop="" playsinline="" style="width: 60%; height: 60%;"></video>
+		<video class="video-loose" src="https://media.giphy.com/media/oNNqDTrjg3xYI/giphy.mp4" poster="https://media.giphy.com/media/oNNqDTrjg3xYI/giphy.mp4" autoplay="" loop="" playsinline="" style="width: 60%; height: 60%;"></video>
 		<div class="overlay">click to close</div>
 	</body>
 </html>

@@ -9,6 +9,7 @@
 	let targets
 	let myScore
 	let repulse
+	let vars
 	let field = {
 		min : {
 			x : 0,
@@ -70,7 +71,7 @@
 		})
 
 		return {
-			player : createObj($('.player'), scenario.player),
+			player : createObj($('.player').removeClass('power'), scenario.player),
 			power : createObj($('.power').show(), scenario.power),
 			targets,
 			myScore : scenario.myScore
@@ -140,6 +141,7 @@
 				repulse = true
 				power.died = true
 				power.container.hide()
+				player.container.addClass('power')
 			}
 
 			targets = killTargets(player, targets)
@@ -151,7 +153,7 @@
 						t = updateElement(t, Math.min(0.75 * BASE_INC, BASE_INC / (0.05 * distance(t.coord, player.coord))))
 					} else {
 						t.target = player.coord
-						t = updateElement(t, BASE_INC)
+						t = updateElement(t, BASE_INC * 0.75)
 					}
 					t.container.css('left', t.coord.x).css('top', t.coord.y)
 				} else {
@@ -166,7 +168,8 @@
 				redraw : redraw,
 				hasEnded,
 				init,
-				score
+				score,
+				vars
 			}
 		}
 
@@ -191,6 +194,7 @@
 			targets = state.targets
 			myScore = state.myScore
 			repulse = false
+			vars = {}
 			return redraw()
 		}
 
@@ -200,7 +204,8 @@
 			redraw : redraw,
 			hasEnded,
 			init,
-			score
+			score,
+			vars
 		}
 	}
 

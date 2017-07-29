@@ -1,3 +1,8 @@
+.canvas {
+	background: url('../img/bg.jpg') repeat;
+	background-size: 64px 64px;
+}
+
 .character {
 	width: 15px;
 	height: 15px;
@@ -5,16 +10,27 @@
 	position: absolute;
 }
 
-.player {
-	background-color: #36A;
+.character::after {
+	content: "";
+	position: absolute;
+	background-size: 64px 64px;
+	width: 64px;
+	height: 64px;
 }
 
-.power {
-	background-color: #3A6;
+.player::after {
+	background-image: url('../img/dv.jpg');
+}
+.player.power::after {
+	background-image: url('../img/dvsaber.png');
 }
 
-.enemy {
-	background-color: #F33;
+.power::after {
+	background-image: url('../img/saber.png');
+}
+
+.enemy::after {
+	background-image: url('../img/soldier.png');
 }
 
 .overlay {
