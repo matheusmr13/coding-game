@@ -44,7 +44,6 @@ $('textarea').keydown(function (e) {
 	}
 });
 
-$('body').on('click', '.overlay', function() {
-	$(this).remove();
-	$('iframe').hide();
+$('body').on('click', '.overlay, video', function() {
+	$('.overlay, video').fadeOut();
 });

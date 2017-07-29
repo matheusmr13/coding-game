@@ -82,7 +82,7 @@ for (let i = 0; i < lib.targets.length; i++) {
 				let d
 				const execRound = (code) => {
 					if (window.lib[game].hasEnded()) {
-						$('body').append('<div class="overlay" />').find('iframe').show();
+						$('body').find('.overlay, video').fadeIn();
 						return;
 					}
 					eval('(function(lib){'+code+'})(window.lib[\''+game+'\'])')
@@ -98,6 +98,7 @@ for (let i = 0; i < lib.targets.length; i++) {
 			})()
 		</script>
 		<script type="text/javascript" src="js/code-editor.js"></script>
-		<iframe src="https://giphy.com/embed/UomtITuXq8kvK" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+		<video alt=" rap snoop dogg thug life 50cent GIF" src="https://media.giphy.com/media/UomtITuXq8kvK/giphy.mp4" poster="https://media.giphy.com/media/UomtITuXq8kvK/giphy_s.gif" autoplay="" loop="" playsinline="" style="width: 60%; height: 60%;"></video>
+		<div class="overlay">click to close</div>
 	</body>
 </html>
