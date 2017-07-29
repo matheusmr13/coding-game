@@ -1,3 +1,8 @@
+.canvas {
+	background: url('../img/bg.jpg') repeat;
+	background-size: 64px 64px;
+}
+
 .character {
 	width: 15px;
 	height: 15px;
