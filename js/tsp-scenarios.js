@@ -32,7 +32,7 @@
 				player :  { x : w / 2, y : 2 * h / 3},
 				targets : [{x : w / 5, y : h / 4}, {x : 2 * w / 5, y : h / 4}, {x : 3 * w / 5, y : h / 4}, {x : 4 * w / 5, y : h / 4}],
 				power : {x : w / 2, y : h / 5},
-				myScore : 3
+				myScore : 6
 			}
 		},
 	}
