@@ -167,6 +167,7 @@
 			actual.x= -2
 			actual.y= 5
 		}
+		let score = 0
 		let matrix = [];
 		let container
 		const reset = () => {
@@ -186,7 +187,7 @@
 		}
 		let shouldReset = true
 		let ended = false
-		return {
+		let hue = {
 			redraw() {
 				reset()
 				// if (shouldReset) {
@@ -236,6 +237,9 @@
 					newActual()
 					// shouldReset = true
 				}
+
+				score += 10
+				return hue
 			},
 			matrix: matrix,
 			goToColumn(y) {
@@ -256,7 +260,10 @@
 
 			},
 			hasEnded() {
-				return ended
+				return {
+					ended: ended,
+					win: false
+				}
 			},
 			rotate() {
 				let newPosition = actual.position + 1
@@ -277,15 +284,18 @@
 					actual.position = newPosition
 				}
 			},
+			score() {return score},
 			actual: actual,
 			init(_container) {
 				container = _container;
 				matrix = []
 				ended = false
 				newActual()
+				score = 0
 				reset()
 			}
 		}
+		return hue;
 	}
 	const tetris = lib()
 	this.lib.tetris = tetris

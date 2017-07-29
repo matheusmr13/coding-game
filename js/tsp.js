@@ -17,19 +17,29 @@
 
 	const createObj = (c, x, y) => {
 		return {
-			container : c,
+			container : c.show(),
 			coord: {x, y},
 			target : {x, y},
 			dead : false
 		}
 	}
 
-	const lib = () => {
+	const initState = () => {
 		let player = createObj($('.player'), 100, 100)
 		let targets = [
 			createObj($('.enemy').eq(0), 520, 400),
 			createObj($('.enemy').eq(1), 100, 200)
 		]
+		let myScore = 4
+
+		return {player, targets, myScore}
+	}
+
+	const lib = () => {
+		const state = initState()
+		let player = state.player
+		let targets = state.targets
+		let myScore = state.myScore
 
 		let characterFunctions = () => {
 			return {
@@ -39,7 +49,7 @@
 			}
 		}
 
-		const killTargets = () => {
+		const killTargets = (player, targets) => {
 			targets.forEach(t => {
 				if (Math.abs(t.coord.x - player.coord.x) < PLAYER_SIZE && Math.abs(t.coord.y - player.coord.y) < PLAYER_SIZE) {
 					t.dead = true
@@ -74,6 +84,15 @@
 					t.container.hide()
 				}
 			})
+
+			return {
+				player: characterFunctions(),
+				targets,
+				redraw: redraw,
+				hasEnded,
+				init,
+				score
+			}
 		}
 
 		const hasEnded = () => {
@@ -83,14 +102,28 @@
 					hasTargets = true
 				}
 			})
-			return !hasTargets;
+			return {ended : !hasTargets || myScore < 0, win : myScore >= 0};
 		}
+
+		const score = () => {
+			return myScore--
+		}
+
+		const init = () => {
+			const state = initState()
+			player = state.player
+			targets = state.targets
+			myScore = state.myScore
+			redraw()
+		}
+
 		return {
 			player: characterFunctions(),
 			targets,
 			redraw: redraw,
 			hasEnded,
-			init: redraw
+			init,
+			score
 		}
 	}
 

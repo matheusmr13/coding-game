@@ -39,7 +39,7 @@
 	margin: .3em 1.5em .3em .3em;
 	color: rgba(255,255,255,.4);
 }
-.score, .round {
+.score, .time {
 	font-family: 'Patua One', cursive;
 	display: inline-block;
 	width: 30%;
