@@ -60,21 +60,25 @@ lib.targets.forEach( t => {
 })
 lib.player.moveTo(min)</textarea>
 		</div>
+		<div class="left-side">
+			<h2>Documentation</h2>
+			<p>Use lib.player.moveTo({x:100, y:199}) to the main loop conduct the player to the coordinate (100, 199)</p>
+			<p>lib.targets[i].coord() and lib.player.coord() gives the coordinates of the i-target and player, respectively</p>
+		</div><div class="right-side">
+			<h2>Test Cases</h2>
+			<ul>
+				<li data-test="1">1</li>
+				<li data-test="2">2</li>
+			</ul>
+		</div>
 		<script>
 			window.lib = {}
 		</script>
 		<script src="js/tsp.js"></script>
 		<script src="js/tetris.js"></script>
+		<script src="js/main_loop.js"></script>
 		<script>
 			(function() {
-				let startRun = null
-				let time = null
-				const init = () => {
-					time = 0
-					startRun = null
-					window.lib[game] = window.lib[game].init($('.canvas'))
-				}
-
 				$('textarea').keydown(function (e) {
 					if (e.ctrlKey && e.keyCode == 13) {
 						// Ctrl-Enter pressed
@@ -86,51 +90,6 @@ lib.player.moveTo(min)</textarea>
 					$('.overlay, video').fadeOut();
 					init()
 				});
-
-				function getParameterByName(name, url) {
-					if (!url) url = window.location.href;
-					name = name.replace(/[\[\]]/g, "\\$&");
-					var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-						results = regex.exec(url);
-					if (!results) return null;
-					if (!results[2]) return '';
-					return decodeURIComponent(results[2].replace(/\+/g, " "));
-				}
-
-				let game = getParameterByName('game') || 'tsp'
-				const execRound = (code, timestamp) => {
-					if (!startRun || timestamp - startRun >= 1000) {
-						$('.time .item-value').text(time++)
-						startRun = timestamp
-
-						$('.score .item-value').text(window.lib[game].score())
-					}
-
-					const {ended, win} = window.lib[game].hasEnded()
-					if (ended) {
-						if (win) {
-							$('body').find('.overlay, .video-win').fadeIn()
-						} else {
-							$('body').find('.overlay, .video-loose').fadeIn()
-						}
-						return;
-					}
-
-					eval('(function(lib){'+code+'})(window.lib[\''+game+'\'])')
-					window.lib[game] = window.lib[game].redraw()
-
-					window.requestAnimationFrame((timestamp) => execRound(code, timestamp))
-				}
-
-				$('button').click(() => {
-					const code = window.editor.getValue()
-					window.requestAnimationFrame((timestamp) => execRound(code, timestamp))
-				})
-
-				init()
-				if (game === 'tetris') {
-					window.lib.tetris.mountDriver()
-				}
 			})()
 		</script>
 		<script type="text/javascript" src="js/code-editor.js"></script>
