@@ -27,6 +27,12 @@
 	color: #fff;
 	vertical-align: middle;
 }
+.game-score small {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 0.5em;
+	display: block;
+	color: rgba(255,255,255,.6);
+}
 .game-score i {
 	font-size: 1.5em;
 	vertical-align: middle;
@@ -40,12 +46,6 @@
 	vertical-align: middle;
 	margin-top: -.2em;
 	color: rgba(255,255,255,.8);
-}
-small {
-	font-family: 'Open Sans', sans-serif;
-	font-size: 0.5em;
-	display: block;
-	color: rgba(255,255,255,.6);
 }
 .right-side {
 	display: inline-block;
