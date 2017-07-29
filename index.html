@@ -4,13 +4,24 @@
 	src="http://code.jquery.com/jquery-3.2.1.min.js"
 	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 	crossorigin="anonymous"></script>
-
+		<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
+		<link rel="stylesheet" href="https://codemirror.net/addon/hint/show-hint.css">
+		<script src="https://codemirror.net/lib/codemirror.js"></script>
+		<script src="https://codemirror.net/addon/hint/show-hint.js"></script>
+		<script src="https://codemirror.net/addon/hint/javascript-hint.js"></script>
+		<script src="https://codemirror.net/mode/javascript/javascript.js"></script>
+		<script src="https://codemirror.net/mode/markdown/markdown.js"></script>
 		<style>
+			body {
+				margin: 0;
+				padding: 0;
+			}
 			.canvas {
 				position: relative;
-				height: 400px;
-				width: 400px;
-				background-color: rgb(240,240,240)
+				height: 100vh;
+				width: 50vw;
+				background-color: rgb(240,240,240);
+				display: inline-block;
 			}
 			.character {
 				width: 10px;
@@ -26,9 +37,20 @@
 				background-color: red;
 			}
 
+			.right-side {
+				width: 50vw;
+				display: inline-block;
+				height: 100vw;
+			}
 			textarea {
 				width: 500px;
 				height: 100px;
+			}
+			button {
+				background: white;
+				border: 1px solid black;
+				text-align: center;
+				width: 100%;
 			}
 		</style>
 
@@ -39,11 +61,10 @@
 			<div class="shot shot-player" style="display: none;"></div>
 			<div class="character enemy"></div>
 			<div class="shot shot-enemy" style="display: none;"></div>
+		</div><div class="right-side">
+			<textarea id="code">lib.enemy.walk('LEFT')</textarea>
+			<button>exec</button>
 		</div>
-		<textarea>			
-			lib.enemy.walk('LEFT')
-		</textarea>
-		<button>exec</button>
 		<script>
 			(function() {
 				
@@ -102,8 +123,46 @@
 				$('button').click(() => {
 					execCode()
 				})
+
 				window.lib.redraw()
 			})()
+
+			var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+				lineNumbers: true,
+				extraKeys: {"Ctrl-Space": "autocomplete"},
+				mode: {name: "javascript", globalVars: true}
+			});
+
+			if (typeof Promise !== "undefined") {
+				var comp = [
+					["here", "hither"],
+					["asynchronous", "nonsynchronous"],
+					["completion", "achievement", "conclusion", "culmination", "expirations"],
+					["hinting", "advive", "broach", "imply"],
+					["function","action"],
+					["provide", "add", "bring", "give"],
+					["synonyms", "equivalents"],
+					["words", "token"],
+					["each", "every"]
+				];
+
+				function synonyms(cm, option) {
+					return new Promise(function(accept) {
+						setTimeout(function() {
+							var cursor = cm.getCursor(), line = cm.getLine(cursor.line)
+							var start = cursor.ch, end = cursor.ch
+							while (start && /\w/.test(line.charAt(start - 1))) --start
+							while (end < line.length && /\w/.test(line.charAt(end))) ++end
+							var word = line.slice(start, end).toLowerCase()
+							for (var i = 0; i < comp.length; i++) if (comp[i].indexOf(word) != -1)
+							return accept({list: comp[i],
+								from: CodeMirror.Pos(cursor.line, start),
+								to: CodeMirror.Pos(cursor.line, end)});
+							return accept(null);
+						}, 100);
+					});
+				}
+			}
 		</script>
 	</body>
 </html>
