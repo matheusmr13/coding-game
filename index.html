@@ -78,7 +78,7 @@
 				let d
 				const execRound = (code) => {
 					if (ended) {
-						alert('acaboouu')
+						$('body').append('<div class="overlay" />').append('<iframe src="https://giphy.com/embed/UomtITuXq8kvK" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>');
 						return;
 					}
 					eval('(function(lib){'+code+'})(window.lib' + game + ')')
