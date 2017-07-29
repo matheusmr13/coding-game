@@ -59,6 +59,6 @@
 		}
 	}
 
-	this.lib = lib()
+	this.lib.tsp = lib()
 
 }).apply(window)

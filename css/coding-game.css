@@ -1,0 +1,53 @@
+.right-side {
+	width: 50%;
+	display: inline-block;
+	height: 100vh;
+	vertical-align: top;
+}
+textarea {
+	width: 500px;
+	height: 100px;
+}
+button {
+	font-family: 'Open Sans', sans-serif;
+	text-align: center;
+	padding: .25em 1em;
+	font-size: .75em;
+	border: none;
+}
+.game-buttons {
+	background-color: #1c1817;
+	position: relative;
+	height: 6%;
+}
+.game-buttons button {
+	background-color: rgba(29, 31, 107, 1);
+	color: rgba(255,255,255,.6);
+	position: absolute;
+	cursor: pointer;
+	height: 100%;
+	right: 0;
+	top: 0;
+}
+.game-buttons button:hover {
+	background-color: rgba(29, 31, 107, .7);
+	color: rgba(255,255,255,.9);
+}
+.game-buttons button i {
+	font-size: 1.5em;
+	vertical-align: middle;
+	margin-right: .5em;
+}
+.right-side h1 {
+	margin: 0;
+	font: normal 1em 'Patua One', cursive;
+	color: #888;
+	line-height: 2.25em;
+	padding-left: .5em;
+}
+.right-side h1 span {
+	color: #bbb;
+}
+.CodeMirror {
+	height: 94%;
+}
