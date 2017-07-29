@@ -206,7 +206,7 @@
 			let elementOnI = matrix[i]
 			let line = elementOnI || []
 			for (var j = 0; j < 10; j++) {
-				if (!line[j]) {
+				if (typeof line[j] === 'undefined') {
 					line.push(0)
 				} else if (line[j] === 1) {
 					line[j] = 0
@@ -222,7 +222,8 @@
 	let hasColision = (position, y) => {
 		for (var i=0; i < 4;i++) {
 			for (var j=0; j< 4;j++) {
-				if (actual.type.matrix[position][i][j] && (!matrix[i + actual.x + 1] || matrix[i + actual.x + 1][j + y])) {
+				let expectedX = Math.max((i + actual.x + 1), 0)
+				if (actual.type.matrix[position][i][j] && (!matrix[expectedX] || matrix[expectedX][j + y])) {
 					return true
 				}
 			}
@@ -237,7 +238,7 @@
 			reset()
 			let willColide = false
 
-			if (updateCounter > 15) {
+			if (updateCounter > 1) {
 				actual.x++
 				for (var i=0; i < 4;i++) {
 					for (var j=0; j< 4;j++) {
@@ -303,12 +304,11 @@
 			score += 10
 			return tetris
 		},
-		matrix: matrix,
+		matrix() { return matrix},
 		goToColumn(y) {
-			shouldDraw = true
 			const newY = Math.max(0, Math.min(10 - typesWidth[actual.typeKey][actual.position], y))
-
-			if (!hasColision(actual.position, newY)) {
+			if (newY != actual.y && !hasColision(actual.position, newY)) {
+				shouldDraw = true
 				actual.y = newY
 			}			
 		},
@@ -319,20 +319,20 @@
 			}
 		},
 		rotate() {
-			shouldDraw = true
 			let newPosition = actual.position + 1
 			if (newPosition === actual.type.matrix.length) {
 				newPosition = 0
 			}
 
-			if (!hasColision(newPosition, actual.y)) {
+			if (newPosition !== actual.position && !hasColision(newPosition, actual.y)) {
+				shouldDraw = true
 				actual.position = newPosition
 			}
 		},
 		score() {
 			return score
 		},
-		actual: actual,
+		actual(){ return actual},
 		init(_container) {
 			container = _container;
 			container.html('')
