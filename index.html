@@ -82,7 +82,7 @@ for (let i = 0; i < lib.targets.length; i++) {
 				let d
 				const execRound = (code) => {
 					if (window.lib[game].hasEnded()) {
-						$('body').append('<div class="overlay" />').append('<iframe src="https://giphy.com/embed/UomtITuXq8kvK" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>');
+						$('body').append('<div class="overlay" />').find('iframe').show();
 						return;
 					}
 					eval('(function(lib){'+code+'})(window.lib[\''+game+'\'])')
@@ -98,5 +98,6 @@ for (let i = 0; i < lib.targets.length; i++) {
 			})()
 		</script>
 		<script type="text/javascript" src="js/code-editor.js"></script>
+		<iframe src="https://giphy.com/embed/UomtITuXq8kvK" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
 	</body>
 </html>

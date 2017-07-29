@@ -46,5 +46,5 @@ $('textarea').keydown(function (e) {
 
 $('body').on('click', '.overlay', function() {
 	$(this).remove();
-	$('iframe').remove();
+	$('iframe').hide();
 });
