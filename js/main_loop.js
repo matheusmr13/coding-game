@@ -5,7 +5,7 @@
 	window.init = () => {
 		time = 0
 		startRun = null
-		window.lib[game] = window.lib[game].init($('.canvas'))
+		window.lib[game] = window.lib[game].init($('.canvas'), $('[data-test].selected').data('test'))
 	}
 
 	function getParameterByName(name, url) {
