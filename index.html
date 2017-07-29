@@ -13,11 +13,18 @@
 		<script src="https://codemirror.net/mode/javascript/javascript.js"></script>
 		<script src="https://codemirror.net/mode/markdown/markdown.js"></script>
 		<style>
+			body {
+				margin: 0;
+				padding: 0;
+				width: 100vw;
+			}
 			.canvas {
 				position: relative;
-				height: 400px;
-				width: 400px;
-				background-color: rgb(240,240,240)
+				height: 100vh;
+				width: 50%;
+				background-color: rgb(240,240,240);
+				display: inline-block;
+				vertical-align: top;
 			}
 			.character {
 				width: 10px;
@@ -33,9 +40,21 @@
 				background-color: red;
 			}
 
+			.right-side {
+				width: 50%;
+				display: inline-block;
+				height: 100vh;
+				vertical-align: top;
+			}
 			textarea {
 				width: 500px;
 				height: 100px;
+			}
+			button {
+				background: white;
+				border: 1px solid black;
+				text-align: center;
+				width: 100%;
 			}
 		</style>
 
@@ -46,10 +65,10 @@
 			<div class="shot shot-player" style="display: none;"></div>
 			<div class="character enemy"></div>
 			<div class="shot shot-enemy" style="display: none;"></div>
+		</div><div class="right-side">
+			<textarea id="code">lib.enemy.walk('LEFT')</textarea>
+			<button>exec</button>
 		</div>
-
-		<textarea id="code">lib.enemy.walk('LEFT')</textarea>
-		<button>exec</button>
 		<script>
 			(function() {
 				
@@ -98,9 +117,15 @@
 						redraw: redraw
 					}
 				}
+				const execCode = (code) => {
+					
+				}
+				const execRound = (code) => {
+					eval('(function(lib){'+$('textarea').val()+'})(window.lib)')
+				}
 				window.lib = lib()
 				$('button').click(() => {
-					eval('(function(lib){'+$('textarea').val()+'})(window.lib)')
+					execCode()
 				})
 
 				window.lib.redraw()
