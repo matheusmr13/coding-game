@@ -113,6 +113,10 @@ button {
 	height: 94%;
 }
 
+.doc b {
+	color: #BFB
+}
+
 [data-test] {
 	color: #333;
 	background: #BBB;
