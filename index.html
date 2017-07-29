@@ -6,6 +6,9 @@
 	crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="css/codemirror.css">
 		<link rel="stylesheet" href="css/pastel-on-dark.css">
+		<link rel="stylesheet" href="css/tetris.css">
+		<link rel="stylesheet" href="css/tsp.css">
+		<link rel="stylesheet" href="css/coding-game.css">
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Patua+One" rel="stylesheet">
 		<link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
 		<script type="text/javascript" src="js/codemirror.js"></script>
@@ -20,120 +23,7 @@
 				width: 100vw;
 				font-family: 'Open Sans', sans-serif;
 			}
-			.left-side {
-				position: relative;
-				height: 100vh;
-				width: 50%;
-				display: inline-block;
-				vertical-align: top;
-			}
-			.canvas {
-				background-color: rgb(240,240,240);
-				position: relative;
-				height: 94%;
-			}
-			.game-info {
-				background-color: #1c1817;
-				position: relative;
-				height: 6%;
-			}
-			.game-score {
-				background-color: rgba(29, 31, 107, .45);
-				position: absolute;
-				top: 0;
-				right: 0;
-				width: 30%;
-				height: 100%;
-				line-height: 100%;
-				text-align: center;
-				color: #fff;
-				vertical-align: middle;
-			}
-			.game-score i {
-				font-size: 1.5em;
-				vertical-align: middle;
-				margin: .3em 1.5em .3em .3em;
-				color: rgba(255,255,255,.4);
-			}
-			.score, .round {
-				font-family: 'Patua One', cursive;
-				display: inline-block;
-				width: 30%;
-				vertical-align: middle;
-				margin-top: -.2em;
-				color: rgba(255,255,255,.8);
-			}
-			small {
-				font-family: 'Open Sans', sans-serif;
-				font-size: 0.5em;
-				display: block;
-				color: rgba(255,255,255,.6);
-			}
-			.character {
-				width: 10px;
-				height: 10px;
-				position: absolute;
-			}
-			.player {
-				background-color: blue;
-			}
-			.enemy {
-				background-color: red;
-			}
-			.right-side {
-				display: inline-block;
-				vertical-align: top;
-				height: 100vh;
-				width: 50%;
-			}
-			button {
-				font-family: 'Open Sans', sans-serif;
-				text-align: center;
-				padding: .25em 1em;
-				font-size: .75em;
-				border: none;
-			}
-			.game-buttons {
-				background-color: #1c1817;
-				position: relative;
-				height: 6%;
-			}
-			.game-buttons button {
-				background-color: rgba(29, 31, 107, 1);
-				color: rgba(255,255,255,.6);
-				position: absolute;
-				cursor: pointer;
-				height: 100%;
-				right: 0;
-				top: 0;
-			}
-			.game-buttons button:hover {
-				background-color: rgba(29, 31, 107, .7);
-				color: rgba(255,255,255,.9);
-			}
-			.game-buttons button i {
-				font-size: 1.5em;
-				vertical-align: middle;
-				margin-right: .5em;
-			}
-			.left-side h1 {
-				margin: 0;
-				font: normal 1em 'Patua One', cursive;
-				color: #888;
-				line-height: 2.25em;
-				padding-left: .5em;
-			}
-			.left-side h1 span {
-				color: #bbb;
-				font-size: 1.5em;
-				vertical-align: middle;
-				margin-right: .25em;
-			}
-			.CodeMirror {
-				height: 94%;
-			}
 		</style>
-
 	</head>
 	<body>
 		<div class="left-side">
@@ -150,20 +40,40 @@
 				</div>
 			</div>
 			<div class="canvas">
-				<div class="character player"></div>
-				<div class="shot shot-player" style="display: none;"></div>
-				<div class="character enemy"></div>
-				<div class="shot shot-enemy" style="display: none;"></div>
-			</div>
+				<div data-game="tsp">
+					<div class="character player"></div>
+					<div class="shot shot-player" style="display: none;"></div>
+					<div class="character enemy"></div>
+					<div class="shot shot-enemy" style="display: none;"></div>
+				</div>
+				<div data-game="tetris">
+				</div>
+			</div> 
 		</div><div class="right-side">
 			<div class="game-buttons">
 				<button><i class="fa fa-cogs"></i> run code</button>
 			</div>
-			<textarea id="code">lib.enemy.walk('LEFT')</textarea>
+			<textarea id="code"></textarea>
 		</div>
+		<script>
+			window.lib = {}
+		</script>
 		<script src="js/tsp.js"></script>
+		<script src="js/tetris.js"></script>
 		<script>
 			(function() {
+				function getParameterByName(name, url) {
+					if (!url) url = window.location.href;
+					name = name.replace(/[\[\]]/g, "\\$&");
+					var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+						results = regex.exec(url);
+					if (!results) return null;
+					if (!results[2]) return '';
+					return decodeURIComponent(results[2].replace(/\+/g, " "));
+				}
+				
+				let game = getParameterByName('game') || 'tsp'
+
 				let ended = false;
 				let d
 				const execRound = (code) => {
@@ -171,7 +81,7 @@
 						alert('acaboouu')
 						return;
 					}
-					eval('(function(lib){'+code+'})(window.lib)')
+					eval('(function(lib){'+code+'})(window.lib' + game + ')')
 					d = setTimeout(() => execRound(code), 1000 / 12)
 				}
 				$('button').click(() => {
@@ -179,7 +89,7 @@
 					execRound(window.editor.getValue())
 				})
 
-				window.lib.redraw()
+				window.lib[game].init()
 			})()
 		</script>
 		<script type="text/javascript" src="js/code-editor.js"></script>

@@ -55,10 +55,11 @@
 		return {
 			player: characterFunctions('player'),
 			enemy:  characterFunctions('enemy'),
-			redraw: redraw
+			redraw: redraw,
+			init: redraw
 		}
 	}
 
-	this.lib = lib()
+	this.lib.tsp = lib()
 
 }).apply(window)
