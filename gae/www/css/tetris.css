@@ -1,0 +1,21 @@
+.next-token,
+.table {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.next-token {
+	margin: 20px;
+	border: 5px solid black;
+}
+
+.row {
+	display: block;
+}
+
+.col {
+	border: 1px solid black;
+	width: 30px;
+	height: 30px;
+	display: inline-block;
+}
