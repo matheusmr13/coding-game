@@ -42,7 +42,6 @@
 		</div>
 		<textarea>			
 			lib.enemy.walk('LEFT')
-			
 		</textarea>
 		<button>exec</button>
 		<script>
@@ -93,9 +92,15 @@
 						redraw: redraw
 					}
 				}
+				const execCode = (code) => {
+					
+				}
+				const execRound = (code) => {
+					eval('(function(lib){'+$('textarea').val()+'})(window.lib)')
+				}
 				window.lib = lib()
 				$('button').click(() => {
-					eval('(function(lib){'+$('textarea').val()+'})(window.lib)')
+					execCode()
 				})
 				window.lib.redraw()
 			})()
