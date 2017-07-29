@@ -6,7 +6,8 @@
 	crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="css/codemirror.css">
 		<link rel="stylesheet" href="css/pastel-on-dark.css">
-		<link href="https://fonts.googleapis.com/css?family=Patua+One" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Patua+One" rel="stylesheet">
+		<link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
 		<script type="text/javascript" src="js/codemirror.js"></script>
 		<script type="text/javascript" src="js/show-hint.js"></script>
 		<script type="text/javascript" src="js/javascript-hint.js"></script>
@@ -17,7 +18,7 @@
 				margin: 0;
 				padding: 0;
 				width: 100vw;
-				font-family: 'Patua One', cursive;
+				font-family: 'Open Sans', sans-serif;
 			}
 			.canvas {
 				position: relative;
@@ -55,7 +56,8 @@
 				background: #1d1f6b;
 				border: none;
 				text-align: center;
-				font-size: .875em;
+				font-size: .75em;
+				font-family: 'Open Sans', sans-serif;
 				color: #fff;
 				padding: .25em 1em;
 			}
@@ -70,9 +72,14 @@
 				right: 0;
 				top: 0;
 			}
+			.game-buttons button i {
+				font-size: 1.5em;
+				vertical-align: middle;
+				margin-right: .5em;
+			}
 			.right-side h1 {
 				margin: 0;
-				font-size: 1em;
+				font: normal 1em 'Patua One', cursive;
 				color: #888;
 				line-height: 2.25em;
 				padding-left: .5em;
@@ -95,7 +102,7 @@
 		</div><div class="right-side">
 			<div class="game-buttons">
 				<h1><span>&lt;&gt;</span> Coding Game</h1>
-				<button>execute</button>
+				<button><i class="fa fa-cogs"></i> run code</button>
 			</div>
 			<textarea id="code">lib.enemy.walk('LEFT')</textarea>
 		</div>
