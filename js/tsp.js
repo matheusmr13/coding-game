@@ -1,7 +1,7 @@
 (function() {
 
 	const BASE_INC = 3
-	const SCORE_INC = 2
+	const SCORE_INC = 3
 	const playerSize = 10
 
 	let player
@@ -47,28 +47,30 @@
 		return pf
 	}
 
-	const createObj = (c, x, y) => {
+	const createObj = (c, coord) => {
 		return {
 			container : c.show(),
-			coord: {x, y},
-			target : {x, y},
+			coord,
+			target : coord,
 			dead : false
 		}
 	}
 
-	const initState = (w, h) => {
+	const initState = (w, h, scenarioId) => {
+		const scenario = scenarios[scenarioId](w, h)
+
 		field.max = {x: w, y: h}
 		$('.enemy').remove()
-		let player = createObj($('.player'), w / 2, h / 2)
-		let numberOfTargets = 6
 		let targets = []
-		for (let i = 0; i < numberOfTargets; i++) {
+		scenario.targets.forEach( t => {
 			$('<div class="character enemy"></div>').appendTo('[data-game="tsp"]')
-			targets.push(createObj($('.enemy').last(), Math.random() * w, Math.random() * h))
-		}
-		let myScore = 2
+			targets.push(createObj($('.enemy').last(), t))
+		})
 
-		return {player, targets, myScore}
+		return {player : createObj($('.player'), scenario.player),
+			targets,
+			myScore : scenario.myScore
+		}
 	}
 
 	const lib = () => {
@@ -154,8 +156,8 @@
 			return myScore--
 		}
 
-		const init = (canvas) => {
-			const state = initState(canvas.width(), canvas.height())
+		const init = (canvas, scenarioId) => {
+			const state = initState(canvas.width(), canvas.height(), scenarioId)
 			player = state.player
 			targets = state.targets
 			myScore = state.myScore
