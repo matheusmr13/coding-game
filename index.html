@@ -53,13 +53,11 @@
 				height: 100px;
 			}
 			button {
-				background: #1d1f6b;
-				border: none;
-				text-align: center;
-				font-size: .75em;
 				font-family: 'Open Sans', sans-serif;
-				color: #fff;
+				text-align: center;
 				padding: .25em 1em;
+				font-size: .75em;
+				border: none;
 			}
 			.game-buttons {
 				background-color: #1c1817;
@@ -67,10 +65,17 @@
 				height: 6%;
 			}
 			.game-buttons button {
+				background-color: rgba(29, 31, 107, 1);
+				color: rgba(255,255,255,.6);
 				position: absolute;
+				cursor: pointer;
 				height: 100%;
 				right: 0;
 				top: 0;
+			}
+			.game-buttons button:hover {
+				background-color: rgba(29, 31, 107, .7);
+				color: rgba(255,255,255,.9);
 			}
 			.game-buttons button i {
 				font-size: 1.5em;

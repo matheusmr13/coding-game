@@ -36,3 +36,10 @@ if (typeof Promise !== "undefined") {
 		});
 	}
 }
+
+$('textarea').keydown(function (e) {
+	if (e.ctrlKey && e.keyCode == 13) {
+		// Ctrl-Enter pressed
+		$('button').click();
+	}
+});
