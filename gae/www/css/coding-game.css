@@ -73,14 +73,17 @@ button {
 	position: relative;
 	height: 6%;
 }
+.game-buttons div {
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+}
 .game-buttons button {
 	background-color: rgba(29, 31, 107, 1);
 	color: rgba(255,255,255,.6);
-	position: absolute;
 	cursor: pointer;
 	height: 100%;
-	right: 0;
-	top: 0;
 }
 .game-buttons button:hover {
 	background-color: rgba(29, 31, 107, .7);
