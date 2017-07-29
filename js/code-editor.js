@@ -43,3 +43,7 @@ $('textarea').keydown(function (e) {
 		$('button').click();
 	}
 });
+
+$('body').on('click', '.overlay, video', function() {
+	$('.overlay, video').fadeOut();
+});

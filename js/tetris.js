@@ -159,15 +159,13 @@
 				]
 			}
 		}
-		let actual
+		let actual = {}
 		let newActual = () => {
 			let type =Object.keys(types)[Math.floor(Math.random()*Object.keys(types).length)]
-			actual = {
-				type: types[type],
-				position: 0,
-				x: -2,
-				y: 5
-			}
+			actual.type= types[type]
+			actual.position= 0
+			actual.x= -2
+			actual.y= 5
 		}
 		let matrix = [];
 		let container
@@ -204,7 +202,7 @@
 						// console.info('parte ' + i + '/' + j + ': ' + matrix[i + actual.x + 1][j])
 						// console.info('parte ' + i + '/' + j + ': ' + matrix[i + actual.x + 1])
 						console.info('-----------------')
-						if (actual.type.matrix[actual.position][i][j] && (!matrix[i + actual.x + 1] || matrix[i + actual.x + 1][j])) {
+						if (actual.type.matrix[actual.position][i][j] && (!matrix[i + actual.x + 1] || matrix[i + actual.x + 1][j + actual.y])) {
 							willColide = true
 						}
 						if (matrix[i + actual.x]) {
@@ -241,17 +239,79 @@
 			},
 			matrix: matrix,
 			goToColumn(y) {
-				actual.y = Math.max(0, Math.min(9, y))
+
+				const newY = Math.max(0, Math.min(9, y))
+				let willColide = false
+				for (var i=0; i < 4;i++) {
+					for (var j=0; j< 4;j++) {
+						if (actual.type.matrix[actual.position][i][j] && (!matrix[i + actual.x + 1] || matrix[i + actual.x + 1][j + newY])) {
+							willColide = true
+						}
+					}
+				}
+
+				if (!willColide) {
+					actual.y = newY
+				}
+
 			},
-			ended() {
+			hasEnded() {
 				return ended
 			},
+			rotate() {
+				let newPosition = actual.position + 1
+				if (newPosition === actual.type.matrix.length) {
+					newPosition = 0
+				}
+
+				let willColide = false
+				for (var i=0; i < 4;i++) {
+					for (var j=0; j< 4;j++) {
+						if (actual.type.matrix[newPosition][i][j] && (!matrix[i + actual.x + 1] || matrix[i + actual.x + 1][j + actual.y])) {
+							willColide = true
+						}
+					}
+				}
+
+				if (!willColide) {
+					actual.position = newPosition
+				}
+			},
+			actual: actual,
 			init(_container) {
 				container = _container;
+				matrix = []
+				ended = false
 				newActual()
 				reset()
 			}
 		}
 	}
-	this.lib.tetris = lib()
+	const tetris = lib()
+	this.lib.tetris = tetris
+
+	this.lib.tetris.mountDriver = () => {
+		$(document).keydown(function(e) {
+			switch(e.which) {
+				case 37: // left
+				console.info(tetris.actual)
+					tetris.goToColumn(tetris.actual.y + 1)
+				break;
+
+				case 38: // up
+					tetris.rotate()
+				break;
+
+				case 39: // right
+					tetris.goToColumn(tetris.actual.x - 1)
+				break;
+
+				case 40: // down
+				break;
+
+				default: return; // exit this handler for other keys
+			}
+			e.preventDefault(); // prevent the default action (scroll / move caret)
+		});
+	}
 }).apply(window)

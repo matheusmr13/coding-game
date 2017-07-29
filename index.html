@@ -28,7 +28,7 @@
 	<body>
 		<div class="left-side">
 			<div class="game-info">
-				<h1><span><i class="fa fa-code"></i></span> Coding Game</h1>
+				<h1><span><i class="fa fa-code"></i></span> DexCoding</h1>
 				<div class="game-score">
 					<i class="fa fa-thermometer"></i>
 					<div class="round">
@@ -41,15 +41,23 @@
 			</div>
 			<div class="canvas">
 				<div class="character player"></div>
-				<div class="shot shot-player" style="display: none;"></div>
 				<div class="character enemy"></div>
-				<div class="shot shot-enemy" style="display: none;"></div>
+				<div class="character enemy"></div>
 			</div> 
 		</div><div class="right-side">
 			<div class="game-buttons">
 				<button><i class="fa fa-cogs"></i> run code</button>
 			</div>
-			<textarea id="code"></textarea>
+			<textarea id="code">
+for (let i = 0; i < lib.targets.length; i++) {
+  if (!lib.targets[i].dead) {
+    lib.player.moveTo(lib.targets[i].coord)
+    break
+  }
+}
+lib.goToColumn(1+Math.floor(Math.random()*6))
+lib.rotate()
+			</textarea>
 		</div>
 		<script>
 			window.lib = {}
@@ -67,28 +75,31 @@
 					if (!results[2]) return '';
 					return decodeURIComponent(results[2].replace(/\+/g, " "));
 				}
-				
-				let game = getParameterByName('game') || 'tsp'
 
-				let ended = false;
+				let game = getParameterByName('game') || 'tsp'
 				let d
 				const execRound = (code) => {
-					if (window.lib[game].ended()) {
-						alert('acaboouu')
+					if (window.lib[game].hasEnded()) {
+						$('body').find('.overlay, video').fadeIn();
 						return;
 					}
-					eval('(function(lib){'+code+'})(window.lib[' + game + '])')
+					eval('(function(lib){'+code+'})(window.lib[\''+game+'\'])')
 					window.lib[game].redraw()
-					d = setTimeout(() => execRound(code), 1000 / 12)
+					d = setTimeout(() => execRound(code), 1000)
 				}
 				$('button').click(() => {
 					if (d) clearInterval(d)
+					window.lib[game].init($('.canvas'))
 					execRound(window.editor.getValue())
 				})
 
-				window.lib[game].init($('.canvas'))
+				if (game === 'tetris') {
+					window.lib.tetris.mountDriver()
+				}
 			})()
 		</script>
 		<script type="text/javascript" src="js/code-editor.js"></script>
+		<video alt=" rap snoop dogg thug life 50cent GIF" src="https://media.giphy.com/media/UomtITuXq8kvK/giphy.mp4" poster="https://media.giphy.com/media/UomtITuXq8kvK/giphy_s.gif" autoplay="" loop="" playsinline="" style="width: 60%; height: 60%;"></video>
+		<div class="overlay">click to close</div>
 	</body>
 </html>

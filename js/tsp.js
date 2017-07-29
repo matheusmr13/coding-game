@@ -1,61 +1,95 @@
 (function() {
 
-	const BASE_INC = 15
+	const BASE_INC = 3
+	const PLAYER_SIZE = 10
 
-	const lib = function() {
-		let createObj = (c, x, y) => {
-			return {
-				container: c,
-				x,
-				y
-			}
+	const calculateTheta = (p, p0) => {
+		return p.x == p0.x ? Math.sign(p.y - p0.y) * Math.PI / 2 : Math.atan((p.y - p0.y) / (p.x - p0.x))
+	}
+
+	const calculateDx = (r, theta, x, x0) => {
+		return Math.abs(Math.min(r * Math.cos(theta), Math.abs(x - x0)))
+	}
+
+	const calculateDy = (r, theta, y, y0) => {
+		return Math.abs(Math.min(r * Math.sin(theta), Math.abs(y - y0)))
+	}
+
+	const createObj = (c, x, y) => {
+		return {
+			container : c,
+			coord: {x, y},
+			target : {x, y},
+			dead : false
 		}
-		let characters = {
-			player: createObj($('.player'), 0, 0),
-			enemy: createObj($('.enemy'), 200, 0)
-		}
-		let shotPlayer = createObj($('.shot-player'), 0, 0)
-		let shotEnemy = createObj($('.shot-enemy'), 0, 0)
+	}
 
+	const lib = () => {
+		let player = createObj($('.player'), 100, 100)
+		let targets = [
+			createObj($('.enemy').eq(0), 520, 400),
+			createObj($('.enemy').eq(1), 100, 200)
+		]
 
-		let characterFunctions = (character) => {
-			character = characters[character]
+		let characterFunctions = () => {
 			return {
-				walk(side) {
-					const sides = {
-						LEFT: () => character.x += BASE_INC,
-						RIGHT: () => character.x -= BASE_INC,
-						TOP: () => character.y += BASE_INC,
-						BOT: () => character.y -= BASE_INC
-					}[side]()
-					redraw()
-				},
-				moveTo(x, y) {
-					const theta = x == character.x ? Math.sign(y - character.y) * Math.PI / 2 : Math.atan((y - character.y) / (x - character.x))
-					const r = BASE_INC
-					let dx = r * Math.cos(theta)
-					dx = Math.abs(Math.min(dx, Math.abs(character.x - x)))
-					let dy = r * Math.sin(theta)
-					dy = Math.abs(Math.min(dy, Math.abs(character.y - y)))
-					character.x += character.x > x ? -dx : dx
-					character.y += character.y > y ? -dy : dy
-					redraw()
+				moveTo(coord) {
+					player.target = coord
 				}
 			}
 		}
+
+		const killTargets = () => {
+			targets.forEach(t => {
+				if (Math.abs(t.coord.x - player.coord.x) < PLAYER_SIZE && Math.abs(t.coord.y - player.coord.y) < PLAYER_SIZE) {
+					t.dead = true
+				}
+			})
+
+			return targets
+		}
+
+		const updatePlayer = (player) => {
+			const {x, y}  = player.target
+			const theta = calculateTheta(player.target, player.coord)
+			const r = BASE_INC
+			let dx = calculateDx(r, theta, x, player.coord.x)
+			let dy = calculateDy(r, theta, y, player.coord.y)
+			player.coord.x += player.coord.x > x ? -dx : dx
+			player.coord.y += player.coord.y > y ? -dy : dy
+
+			return player
+		}
+
 		let redraw = () => {
-			let redrawPart = (part) => {
-				part.container.css('left', part.x).css('top', part.y)
-			}
-			redrawPart(characters.player)
-			redrawPart(shotPlayer)
-			redrawPart(characters.enemy)
-			redrawPart(shotEnemy)
+			player = updatePlayer(player)
+			player.container.css('left', player.coord.x).css('top', player.coord.y)
+
+			targets = killTargets(player, targets)
+
+			targets.forEach(t => {
+				if (!t.dead) {
+					t.container.css('left', t.coord.x).css('top', t.coord.y)
+				} else {
+					t.container.hide()
+				}
+			})
+		}
+
+		const hasEnded = () => {
+			let hasTargets = false
+			targets.forEach(t => {
+				if (!t.dead) {
+					hasTargets = true
+				}
+			})
+			return !hasTargets;
 		}
 		return {
-			player: characterFunctions('player'),
-			enemy:  characterFunctions('enemy'),
+			player: characterFunctions(),
+			targets,
 			redraw: redraw,
+			hasEnded,
 			init: redraw
 		}
 	}
