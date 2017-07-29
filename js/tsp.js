@@ -55,7 +55,8 @@
 		return {
 			player: characterFunctions('player'),
 			enemy:  characterFunctions('enemy'),
-			redraw: redraw
+			redraw: redraw,
+			init: redraw
 		}
 	}
 

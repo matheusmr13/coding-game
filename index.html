@@ -6,8 +6,9 @@
 	crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="css/codemirror.css">
 		<link rel="stylesheet" href="css/pastel-on-dark.css">
-		<link rel="stylesheet" href="css/tsp.css">
 		<link rel="stylesheet" href="css/tetris.css">
+		<link rel="stylesheet" href="css/tsp.css">
+		<link rel="stylesheet" href="css/coding-game.css">
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Patua+One" rel="stylesheet">
 		<link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
 		<script type="text/javascript" src="js/codemirror.js"></script>
@@ -34,15 +35,18 @@
 			</div>
 			<div data-game="tetris">
 			</div>
-		</div>
-		<div class="right-side">
+		</div><div class="right-side">
 			<div class="game-buttons">
 				<h1><span>&lt;&gt;</span> Coding Game</h1>
 				<button><i class="fa fa-cogs"></i> run code</button>
 			</div>
 			<textarea id="code"></textarea>
 		</div>
+		<script>
+			window.lib = {}
+		</script>
 		<script src="js/tsp.js"></script>
+		<script src="js/tetris.js"></script>
 		<script>
 			(function() {
 				function getParameterByName(name, url) {
