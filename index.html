@@ -50,8 +50,10 @@
 			</div>
 		</div><div class="right-side">
 			<div class="game-buttons">
-				<button><i class="fa fa-cogs"></i> run code</button>
-				<button onclick="TogetherJS(this); return false;">Start TogetherJS</button>
+				<div>
+					<button><i class="fa fa-cogs"></i> run code</button>
+					<button onclick="TogetherJS(this); return false;">Pair programming!</button>
+				</div>
 			</div>
 			<textarea id="code">
 const distance = (p, p0) => { return Math.sqrt(Math.pow(p.x - p0.x, 2) + Math.pow(p.y - p0.y, 2))}
