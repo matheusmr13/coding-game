@@ -40,19 +40,12 @@
 				</div>
 			</div>
 			<div class="canvas">
-<<<<<<< HEAD
 				<div data-game="tsp">
 					<div class="character player"></div>
 				</div>
 				<div data-game="tetris">
 				</div>
 			</div>
-=======
-				<div class="character player"></div>
-				<div class="character enemy"></div>
-				<div class="character enemy"></div>
-			</div>
->>>>>>> e616d87082d194219eb3134cc27b814359ec5e11
 		</div><div class="right-side">
 			<div class="game-buttons">
 				<button><i class="fa fa-cogs"></i> run code</button>
@@ -64,8 +57,6 @@ for (let i = 0; i < lib.targets.length; i++) {
     break
   }
 }
-lib.goToColumn(1+Math.floor(Math.random()*6))
-lib.rotate()
 			</textarea>
 		</div>
 		<script>
@@ -107,7 +98,7 @@ lib.rotate()
 
 				let game = getParameterByName('game') || 'tsp'
 				const execRound = (code, timestamp) => {
-					if (!startRun || timestamp - startRun >= 10000) {
+					if (!startRun || timestamp - startRun >= 1000) {
 						$('.time .item-value').text(time++)
 						startRun = timestamp
 
