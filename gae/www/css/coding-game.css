@@ -2,6 +2,8 @@ body {
 	margin: 0;
 	padding: 0;
 	font-family: 'Open Sans', sans-serif;
+	color: #FFF;
+	background: #333;
 }
 .row {
 	width: 100%
@@ -109,4 +111,18 @@ button {
 }
 .CodeMirror {
 	height: 94%;
+}
+
+[data-test] {
+	color: #333;
+	background: #BBB;
+	margin-bottom: 1em;
+	padding: 1em;
+	cursor: pointer;
+}
+[data-test]:hover {
+	background: #FFF;
+}
+[data-test].selected {
+	background: #BFB;
 }

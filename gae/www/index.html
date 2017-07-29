@@ -36,7 +36,7 @@
 						<small class="item-label">Time</small> <span class="item-value">-</span>
 					</div>
 					<div class="score">
-						<small class="item-label">score</small> <span class="item-value">-</span>
+						<small class="item-label">Score</small> <span class="item-value">-</span>
 					</div>
 				</div>
 			</div>
@@ -51,7 +51,7 @@
 		</div><div class="right-side">
 			<div class="game-buttons">
 				<div>
-					<button class="run"><i class="fa fa-cogs"></i> run code</button>
+					<button class="run"><i class="fa fa-cogs"></i> Run!</button>
 					<button onclick="TogetherJS(this); return false;">Pair programming!</button>
 				</div>
 			</div>
@@ -83,17 +83,35 @@ if (!lib.power.coord()) {
 
 </textarea>
 		</div>
-		<div class="left-side">
+		<div class="left-side" style="padding:2em; width:calc(50% - 4em)">
 			<h2>Documentation</h2>
-			<p>Use lib.player.moveTo({x:100, y:199}) to the main loop conduct the player to the coordinate (100, 199)</p>
-			<p>lib.targets[i].coord() and lib.player.coord() gives the coordinates of the i-target and player, respectively</p>
-		</div><div class="right-side">
-			<h2>Test Cases</h2>
+			<p>Your objetive here is to have fun while helping Darth Vader to scape from the rebels. While unarmed, Rebels tries to attack him, but when using the powerful lightsaber, everyone runs away!</p>
+			<h3>Main Rules</h3>
 			<ul>
-				<li data-test="1" class="selected">1</li>
-				<li data-test="2">2</li>
-				<li data-test="3">3</li>
-				<li data-test="4">4</li>
+				<li>If you colide with a rebel without the lightsaber, you loose</li>
+				<li>If you colide with a rebel with the lightsaber, the rebel disappears</li>
+				<li>If a rebel gets out of the field, he is gone.</li>
+				<li>Every second pass, you loose 1 point. If you loose then all, you loose</li>
+				<li>Everytime you make a rebel disappear, you earn points</li>
+				<li>A rebel speed is, at maximum, 75% of Darth Vader's speed, which is constant</li>
+			</ul>
+			<h3>Usefull methods available for you</h3>
+			<ul>
+				<li><b>lib.player.moveTo({x:100, y:199})</b> - the main loop conduct the player to the coordinate (100, 199)</li>
+				<li><b>lib.targets[i].coord()</b>, <b>lib.player.coord()</b> and <b>lib.power.coord()</b> - gives the coordinates of the i-target, player and lightsaber respectively</li>
+			</ul>
+			<h3>May the force be with you</h3>
+		</div><div class="right-side" style="padding:2em; width:calc(50% - 4em)">
+			<h2>Test Cases</h2>
+			<p>To you can show your abilities in conducting the dark side of the force, there are 4 ambuscates to you help Darth Vader gets away alive.</p>
+			<p>They have increasing level of difficulty. So try to win each one in order</p>
+			<p>Sometimes you will need to write a strategy not so generic in order to figure out one capable to solve all puzzles</p>
+			<p>Click below to change the scenario
+			<ul style="padding: 0;">
+				<li data-test="1" class="selected">1 - One versus one to get started</li>
+				<li data-test="2">2 - Try against 4 rebels now</li>
+				<li data-test="3">3 - How about 8?</li>
+				<li data-test="4">4 - It's time to change your strategy</li>
 			</ul>
 		</div>
 		<script src="https://togetherjs.com/togetherjs-min.js"></script>
