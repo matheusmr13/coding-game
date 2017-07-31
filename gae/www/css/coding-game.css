@@ -10,7 +10,7 @@ body {
 }
 .left-side {
 	position: relative;
-	height: 100vh;
+	height: 660px;
 	width: 640px;
 	display: inline-block;
 	vertical-align: top;
@@ -60,7 +60,7 @@ body {
 .right-side {
 	display: inline-block;
 	vertical-align: top;
-	height: 100vh;
+	height: 660px;
 	width: calc(100% - 640px);
 }
 button {
