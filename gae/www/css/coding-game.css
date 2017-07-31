@@ -11,7 +11,7 @@ body {
 .left-side {
 	position: relative;
 	height: 100vh;
-	width: 50%;
+	width: 640px;
 	display: inline-block;
 	vertical-align: top;
 }
@@ -61,7 +61,7 @@ body {
 	display: inline-block;
 	vertical-align: top;
 	height: 100vh;
-	width: 50%;
+	width: calc(100% - 640px);
 }
 button {
 	font-family: 'Open Sans', sans-serif;

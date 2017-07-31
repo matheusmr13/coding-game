@@ -47,7 +47,7 @@
 		window.requestAnimationFrame((timestamp) => execRound(code, timestamp))
 	}
 
-	$('button').click(() => {
+	$('button.run').click(() => {
 		const code = window.editor.getValue()
 		window.requestAnimationFrame((timestamp) => execRound(code, timestamp))
 	})
