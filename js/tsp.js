@@ -91,13 +91,13 @@
 					}
 					player.target = coord
 				},
-				coord() { return player.coord }
+				coord() { return Object.assign({}, player.coord) }
 			}
 		}
 
 		const powerFunctions = () => {
 			return {
-				coord() { return power.died ? false : power.coord }
+				coord() { return power.died ? false : Object.assign({}, power.coord) }
 			}
 		}
 
@@ -105,7 +105,7 @@
 			let ts = []
 			targets = targets || []
 			targets.filter(t => {return !t.dead}).forEach( t => {
-				ts.push({ coord() { return t.coord }})
+				ts.push({ coord() { return Object.assign({}, t.coord) }})
 			})
 
 			return ts
